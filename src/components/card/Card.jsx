@@ -2,23 +2,25 @@ import React from "react";
 import Tag from "../tag/Tag";
 
 function Card(props) {
-  getMetaData({ url: props.url });
+  const { title, desc, imgUrl } = getMetaData(props.url);
   return (
     <div className="card">
-      {/* <img src={imageURL} alt="test" />
+      <img src={imgUrl} title={title} alt="link thumbnail image" />
       <h2>{title}</h2>
-      <p>{desc}</p>ㅇ
+      <p>{desc}</p>
       <ul>
-        {props.tags.map(tagName => (
-          <li>
+        {props.tags.map((tagName, index) => (
+          <li key={index}>
             <Tag name={tagName} />
           </li>
         ))}
-      </ul> */}
+      </ul>
     </div>
   );
 }
 
-const getMetaData = ({ url }) => {};
+const getMetaData = url => {
+  return { title: "testTitle", desc: "testDesc", imgUrl: "testUrl" };
+};
 
 export default Card;

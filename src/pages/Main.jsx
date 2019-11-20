@@ -1,19 +1,16 @@
-import React, { Component } from "react";
+import React from "react";
 import Card from "../components/card/Card";
+import Layout from "../components/layout/Layout";
 
-class Main extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  render() {
-    return (
-      <div className="main">
+function Main() {
+  return (
+    <div className="main">
+      <Layout>
+        <h1>Python</h1>
         <Card url="https://ogp.me" tags={["abc", "def", "dsdsd"]} />
-      </div>
-    );
-  }
+      </Layout>
+    </div>
+  );
 }
 
 export default Main;
