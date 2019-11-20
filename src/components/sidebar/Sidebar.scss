@@ -1,0 +1,32 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  position: relative;
+  pointer-events: none;
+  max-height: calc(100vh - 120px);
+  width: 240px;
+  opacity: 0;
+  transform: translateX(-220px) translateY(60px) translateZ(0px);
+}
+.sidebar__active {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  pointer-events: auto;
+  max-height: 100%;
+  width: 240px;
+  opacity: 1;
+}
+
+.sidebar__middle {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  pointer-events: auto;
+  max-height: 100%;
+  width: 240px;
+  opacity: 1;
+}
