@@ -1,13 +1,16 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
+import "./reset.css";
+
 import AuthRoutes from "./AuthRoutes";
-import Main from "../../pages/Main";
-import Login from "../../pages/Login";
-import Search from "../../pages/Search";
-import NotFound from "../../pages/NotFound";
+import Main from "../../pages/main/Main";
+import Login from "../../pages/login/Login";
+import Search from "../../pages/search/Search";
+import NotFound from "../../pages/error/NotFound";
 
 const authenticated = true;
+
 function App() {
   return (
     <div className="App">

@@ -1,0 +1,33 @@
+.directory {
+  &__title-container {
+  }
+  &__sub-directory {
+    padding-left: 16px;
+  }
+}
+.title-container {
+  display: flex;
+  padding: 4px;
+  &:hover {
+    background: #eee;
+  }
+  &__title {
+    flex: 1 1 auto;
+    display: flex;
+    white-space: nowrap;
+    min-width: 0px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    align-items: center;
+    & > div {
+      padding: 2px;
+      height: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  &__option {
+    flex: 0 0 auto;
+  }
+}
