@@ -1,11 +1,16 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { SidebarContext } from "../../MyContext";
 
-const NavBar = ({ className, children }) => {
+const NavBar = ({ className }) => {
+  const { hidden, toggleSidebar } = useContext(SidebarContext);
+
+  const openSidebar = () => {
+    console.log(hidden);
+    toggleSidebar(false);
+  };
   return (
     <div className={className}>
-      <div></div>
-      <div></div>
+      <button onClick={openSidebar}>open</button>
     </div>
   );
 };

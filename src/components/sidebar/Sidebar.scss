@@ -3,26 +3,55 @@
   flex-shrink: 0;
   position: relative;
   z-index: 99;
-  background: #fff;
-  width: 240px;
-  transition: width 300ms ease-in 0s;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  &::-webkit-scrollbar {
-    display: none;
+  background: #f4f4f4;
+  transition: width 200ms ease-in 0s;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  &__navbar {
+    padding: 16px;
+    display: flex;
+    & > .user-btn {
+      flex: 1;
+      padding: 4px;
+    }
+    & > .close-btn {
+      flex: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      &:hover {
+        background: #e3e3e3;
+      }
+    }
   }
 }
 
-.directory-list {
-  & .title-container {
-    cursor: pointer;
+.directory {
+  overflow: hidden auto;
+  &::-webkit-scrollbar {
+    display: none;
   }
-  & button {
-    width: 24px;
-    height: 24px;
-    border-radius: 4px;
-    &:hover {
-      background: #cecece;
+  &__type {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #a0a3a5;
+    padding: 4px 8px;
+  }
+
+  & __list {
+    & button {
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      &:hover {
+        background: #cecece;
+      }
     }
   }
+}
+
+.title-container {
+  cursor: pointer;
 }
