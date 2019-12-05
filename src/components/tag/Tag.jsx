@@ -1,11 +1,22 @@
 import React from "react";
+import styled from "styled-components";
 
-function Tag(props) {
+const Tag = ({ name }) => {
   return (
-    <div className="tag">
-      <span>{props.name}</span>
-    </div>
+    <TagItem className="tag">
+      <div>{name}</div>
+    </TagItem>
   );
-}
+};
+
+const TagItem = styled.div`
+  background: #ffe18e;
+  color: #3e3e3e;
+  margin-right: 4px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 0.9rem;
+`;
 
 export default Tag;

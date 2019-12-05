@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import Directory from "../directory/Directory";
-import { FoldBtnIcon } from "../../iconSVG";
+import { FoldBtnIcon, PlusBtnIcon } from "../../iconSVG";
 import { SidebarContext } from "../../MyContext";
 
 import styled from "styled-components";
@@ -81,16 +81,22 @@ const Sidebar = () => {
   return (
     <SidebarContainer hidden={hidden} className="sidebar">
       <div className="sidebar__navbar">
-        <div className="user-btn">User Name</div>
+        <div className="user-btn">
+          <div className="user-btn__img"></div>
+          <div className="user-btn__title">User Name</div>
+        </div>
         <button className="close-btn" onClick={closeSidebar}>
           <FoldBtnIcon fill="#A8A8A8" />
         </button>
       </div>
-      <div className="sidebar__new-directory">
-        <div>+ New Directory</div>
-      </div>
+
       <div className="sidebar__directory directory">
-        <div className="directory__type">Private</div>
+        <div className="directory__type">
+          <div>Private</div>
+          <button>
+            <PlusBtnIcon fill="#A8A8A8" />
+          </button>
+        </div>
         <div className="directory__list">
           <ul>{expandDir(testDir)}</ul>
         </div>
@@ -101,7 +107,6 @@ const Sidebar = () => {
 
 const SidebarContainer = styled.div`
   width: ${({ hidden }) => {
-    console.log(hidden);
     return hidden ? "0px" : "240px";
   }}};
 `;
