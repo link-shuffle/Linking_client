@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Card from "../../components/card/Card";
 import Layout from "../../components/layout/Layout";
 import Sidebar from "../../components/sidebar/Sidebar";
 
+import LinkList from "../../components/link-list/LinkList";
 import { SidebarContext } from "../../MyContext";
 
 import "./main.scss";
@@ -19,8 +19,7 @@ const Main = () => {
       <SidebarContext.Provider value={{ hidden, toggleSidebar }}>
         <Sidebar />
         <Layout className="contents">
-          <h1>Python</h1>
-          <Card url="https://ogp.me" tags={["abc", "def", "dsdsd"]} />
+          <LinkList className="link-list" />
         </Layout>
       </SidebarContext.Provider>
     </div>

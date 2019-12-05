@@ -70,10 +70,27 @@ const Directory = ({ children, dirName }) => {
                 onClick={removeContextMenu}
               >
                 <ContextMenu
-                  className="context"
+                  className="directory-context"
                   menuLocation={menuLocation}
                   menuState={menuState}
-                />
+                >
+                  <div className="context_item">
+                    <div className="inner_item">New Directory</div>
+                  </div>
+                  <div className="context_item">
+                    <div className="inner_item">Rename</div>
+                  </div>
+                  <div className="context_item">
+                    <div className="inner_item">Duplicate</div>
+                  </div>
+                  <div className="context_item">
+                    <div className="inner_item">Remove</div>
+                  </div>
+                  <div className="context_hr"></div>
+                  <div className="context_item">
+                    <div className="inner_item">Move to</div>
+                  </div>
+                </ContextMenu>
               </ContextContainer>
             </button>
           </OptionBtnArea>
