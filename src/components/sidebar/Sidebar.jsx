@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import Directory from "../directory/Directory";
 import { FoldBtnIcon, PlusBtnIcon } from "../../iconSVG";
@@ -61,13 +61,12 @@ const Sidebar = () => {
     }
   ];
 
-  // useEffect(async () => {
-  //   const response = await fetch("http://106.10.39.188:1024", {
-  //     crossDomain: true,
-  //     "content-type": "application/json"
-  //   });
-  //   console.log(response.body);
-  // }, []);
+  useEffect(() => {
+    fetch("http://106.10.39.188", {
+      crossDomain: true,
+      "content-type": "application/json"
+    }).then(res => console.log(res));
+  }, []);
 
   const closeSidebar = () => {
     toggleSidebar(true);
@@ -85,7 +84,7 @@ const Sidebar = () => {
           <div className="user-btn__img"></div>
           <div className="user-btn__title">User Name</div>
         </div>
-        <button className="close-btn" onClick={closeSidebar}>
+        <button className="fold-btn" onClick={closeSidebar}>
           <FoldBtnIcon fill="#A8A8A8" />
         </button>
       </div>
