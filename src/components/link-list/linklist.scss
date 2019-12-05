@@ -1,0 +1,36 @@
+.link-list {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  &__container {
+    overflow: hidden scroll;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 16px 0 16px 16px;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}
+
+.new-link-btn {
+  background: linear-gradient(
+    225deg,
+    rgba(68, 215, 182, 1) 0%,
+    rgba(0, 145, 255, 1) 100%
+  );
+  width: 56px;
+  height: 56px;
+  position: fixed;
+  right: 48px;
+  bottom: 48px;
+  border-radius: 28px;
+  &:hover {
+    background: linear-gradient(
+      225deg,
+      rgba(68, 215, 182, 0.75) 0%,
+      rgba(0, 145, 255, 0.75) 100%
+    );
+  }
+}
