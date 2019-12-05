@@ -9,9 +9,6 @@ const Layout = ({ className, children }) => {
       <div className="contents__container">
         <div className="white-layer">
           <NavBar className="contents__navbar navbar" />
-          <div className="contents__directory-title">
-            <h1>Python</h1>
-          </div>
         </div>
       </div>
       {children}
