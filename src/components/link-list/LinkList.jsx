@@ -5,9 +5,13 @@ import "./linklist.scss";
 import { LinkPlusBtnIcon } from "../../iconSVG";
 
 const LinkList = ({ className }) => {
+  const detectScroll = e => {
+    const container = document.querySelector(".link-list__container");
+    console.log(container.scrollTop);
+  };
   return (
     <div className={className}>
-      <ul className="link-list__container">
+      <ul className="link-list__container" onScroll={detectScroll}>
         <li>
           <Card url="https://ogp.me" tags={["abc", "def", "dsdsd"]} />
         </li>

@@ -8,7 +8,6 @@ const NavBar = ({ className }) => {
   const { hidden, toggleSidebar } = useContext(SidebarContext);
 
   const openSidebar = () => {
-    console.log(hidden);
     toggleSidebar(false);
   };
 
@@ -17,6 +16,9 @@ const NavBar = ({ className }) => {
       <button className="navbar__sidebar-btn" onClick={openSidebar}>
         <MenuBtnIcon fill="#333" />
       </button>
+      <div className="navbar__directory-title">
+        <h1>Python</h1>
+      </div>
     </div>
   );
 };
