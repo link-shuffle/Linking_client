@@ -1,13 +1,13 @@
 import React from "react";
 import NavBar from "../navbar/NavBar";
 
-function Layout(props) {
+const Layout = ({ className, children }) => {
   return (
-    <div className="layout">
-      <NavBar />
-      {props.children}
+    <div className={className}>
+      <NavBar className={`${className}-navbar`} />
+      {children}
     </div>
   );
-}
+};
 
 export default Layout;
