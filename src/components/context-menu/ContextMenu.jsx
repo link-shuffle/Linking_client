@@ -4,7 +4,10 @@ import "./context.scss";
 
 const ContextMenu = ({ className, menuLocation, children }) => {
   return (
-    <ContextMenuBody className={className} menuLocation={menuLocation}>
+    <ContextMenuBody
+      className={className + " context"}
+      menuLocation={menuLocation}
+    >
       {children}
     </ContextMenuBody>
   );

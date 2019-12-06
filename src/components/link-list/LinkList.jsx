@@ -9,6 +9,7 @@ const LinkList = ({ className }) => {
     const container = document.querySelector(".link-list__container");
     console.log(container.scrollTop);
   };
+
   return (
     <div className={className}>
       <ul className="link-list__container" onScroll={detectScroll}>
