@@ -26,6 +26,7 @@ const Main = () => {
         redirect: "follow"
       }
     );
+
     console.log(response);
   };
 
