@@ -9,9 +9,9 @@ import Login from "../../pages/login/Login";
 import Search from "../../pages/search/Search";
 import NotFound from "../../pages/error/NotFound";
 
-const authenticated = true;
+const authenticated = false;
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <Router>
@@ -29,6 +29,6 @@ function App() {
       </Router>
     </div>
   );
-}
+};
 
 export default App;
