@@ -19,7 +19,7 @@ const Main = () => {
   }, []);
 
   const getInitDirList = async () => {
-    const response = await fetch("/directory/김정연/public", {
+    const response = await fetch(":1024/directory/김정연/public", {
       method: "POST",
       redirect: "follow"
     });
