@@ -14,19 +14,21 @@ const Main = () => {
     setHidden(hidden);
   };
   useEffect(() => {
+    getInitDirList();
     readFromClipboard();
   }, []);
+
+  const getInitDirList = async () => {
+    const response = await fetch("/directory/김정연/public", {
+      method: "POST",
+      redirect: "follow"
+    });
+    console.log(response);
+  };
 
   const readFromClipboard = async () => {
     const response = await navigator.clipboard.readText();
     console.log(response);
-    // .then(result => {
-    //   console.log("Successfully retrieved text from clipboard", result);
-    //   return Promise.resolve(result);
-    // })
-    // .catch(err => {
-    //   console.log("Error! read text from clipbaord", err);
-    // });
   };
 
   return (

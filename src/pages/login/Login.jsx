@@ -7,6 +7,7 @@ const GOOGLE_LOGIN_API_KEY =
 const Login = () => {
   const responseGoogle = async res => {
     const googleUser = await res.profileObj;
+    console.log(googleUser);
     const userData = {
       email: googleUser.email,
       name: googleUser.name
