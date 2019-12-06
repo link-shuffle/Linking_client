@@ -9,7 +9,7 @@ import Login from "../../pages/login/Login";
 import Search from "../../pages/search/Search";
 import NotFound from "../../pages/error/NotFound";
 
-const authenticated = false;
+const authenticated = true;
 
 const App = () => {
   return (
