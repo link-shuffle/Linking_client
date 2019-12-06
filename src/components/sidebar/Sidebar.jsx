@@ -64,14 +64,6 @@ const Sidebar = () => {
     }
   ];
 
-  // useEffect(() => {
-  //   fetch("http://106.10.39.188", {
-  //     method: "GET",
-  //     crossDomain: true,
-  //     "content-type": "application/json"
-  //   }).then(res => console.log(res));
-  // }, []);
-
   const toggleContextMenu = e => {
     setMenuLocation({ x: `${e.pageX}px`, y: `${e.pageY}px` });
     setMenuState(menuState ? false : true);
