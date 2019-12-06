@@ -5,8 +5,23 @@ const GOOGLE_LOGIN_API_KEY =
   "185423882459-107vb5ja8v508lffukk94bc0s102o6tp.apps.googleusercontent.com";
 
 const Login = () => {
-  const responseGoogle = res => console.log(res);
-  const responseFail = err => console.log(err);
+  const responseGoogle = async res => {
+    const googleUser = await res.profileObj;
+    const userData = {
+      email: googleUser.email,
+      name: googleUser.name
+    };
+    const response = await fetch("/user", {
+      method: "POST",
+      redirect: "follow",
+      body: JSON.stringify(userData)
+    });
+    console.log(response);
+  };
+
+  const responseFail = async err => {
+    console.log(err);
+  };
 
   return (
     <div className="login">
