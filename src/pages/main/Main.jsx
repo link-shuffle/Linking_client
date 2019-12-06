@@ -19,10 +19,13 @@ const Main = () => {
   }, []);
 
   const getInitDirList = async () => {
-    const response = await fetch(":1024/directory/김정연/public", {
-      method: "POST",
-      redirect: "follow"
-    });
+    const response = await fetch(
+      "http://106.10.39.188:1024/directory/김정연/public",
+      {
+        method: "POST",
+        redirect: "follow"
+      }
+    );
     console.log(response);
   };
 
