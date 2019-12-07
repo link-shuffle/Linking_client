@@ -13,22 +13,10 @@ const Main = () => {
   const toggleSidebar = hidden => {
     setHidden(hidden);
   };
+
   useEffect(() => {
-    getInitDirList();
     readFromClipboard();
   }, []);
-
-  const getInitDirList = async () => {
-    const response = await fetch(
-      "http://106.10.39.188:1024/directory/김정연/public",
-      {
-        method: "POST",
-        redirect: "follow"
-      }
-    );
-
-    console.log(response);
-  };
 
   const readFromClipboard = async () => {
     const response = await navigator.clipboard.readText();

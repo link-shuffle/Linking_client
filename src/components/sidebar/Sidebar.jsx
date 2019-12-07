@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
 
 import Directory from "../directory/Directory";
 import ContextMenu from "../context-menu/ContextMenu";
@@ -63,6 +63,22 @@ const Sidebar = () => {
       ]
     }
   ];
+
+  useEffect(() => {
+    getInitDirList();
+  }, []);
+
+  const getInitDirList = async () => {
+    const response = await fetch(
+      "http://106.10.39.188:1024/directory/김정연/public",
+      {
+        method: "POST",
+        redirect: "follow"
+      }
+    );
+
+    console.log(response.json());
+  };
 
   const toggleContextMenu = e => {
     setMenuLocation({ x: `${e.pageX}px`, y: `${e.pageY}px` });
