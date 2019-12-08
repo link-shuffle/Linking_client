@@ -1,13 +1,11 @@
 .link-list {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  overflow: hidden scroll;
 
   &__container {
     overflow: hidden scroll;
     display: flex;
     flex-wrap: wrap;
-    padding: 16px 0 16px 16px;
+
     &::-webkit-scrollbar {
       display: none;
     }

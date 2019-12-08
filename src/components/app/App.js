@@ -22,6 +22,7 @@ const App = () => {
             authenticated={authenticated}
             component={Main}
           />
+          <Route path="/directory/:dir_name" component={Main} />
           <Route path="/login" component={Login} />
           <Route path="/Search" component={Search} />
           <Route component={NotFound} />
