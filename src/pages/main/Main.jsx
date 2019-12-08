@@ -18,13 +18,13 @@ const Main = ({ match }) => {
     setLinkData(linkData);
   };
 
-  // useEffect(() => {
-  //   readFromClipboard();
-  // }, []);
+  useEffect(() => {
+    readFromClipboard();
+  }, []);
 
-  // const readFromClipboard = async () => {
-  //   const response = await navigator.clipboard.readText();
-  // };
+  const readFromClipboard = async () => {
+    const response = await navigator.clipboard.readText();
+  };
 
   return (
     <div className="main">

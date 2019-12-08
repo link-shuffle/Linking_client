@@ -146,3 +146,9 @@ input[type="reset"] {
   cursor: pointer;
   outline: inherit;
 }
+
+a,
+u {
+  text-decoration: none;
+  color: inherit;
+}
