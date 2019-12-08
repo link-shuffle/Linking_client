@@ -1,3 +1,5 @@
+[![Build Status](http://106.10.50.75:18080/buildStatus/icon?job=LinkingClient)](http://106.10.50.75:18080/job/LinkingClient/)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
