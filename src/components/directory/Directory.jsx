@@ -28,7 +28,6 @@ const Directory = ({ dirName, dirId }) => {
     });
 
     const data = await response.json();
-    console.log(data);
     await setDirList(data);
   };
 
@@ -41,15 +40,18 @@ const Directory = ({ dirName, dirId }) => {
   };
 
   const toggleContextMenu = e => {
-    setMenuLocation({ x: `${e.pageX}px`, y: `${e.pageY}px` });
+    e.stopPropagation();
+    setMenuLocation({ x: `${e.pageX}`, y: `${e.pageY}` });
     setMenuState(menuState ? false : true);
   };
 
   const removeContextMenu = e => {
+    e.stopPropagation();
     setMenuState(false);
   };
 
   const getLinkData = async e => {
+    e.stopPropagation();
     const response = await fetch(`${baseUrl}/link/${dirId}/read`, {
       method: "POST"
     });

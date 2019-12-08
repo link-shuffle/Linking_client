@@ -1,4 +1,6 @@
 .contents {
+  position: relative;
+  z-index: 10;
   &__container {
     background: linear-gradient(
       225deg,

@@ -15,7 +15,7 @@ function Card({ linkData }) {
     read_status,
     tag
   } = linkData;
-  console.log(linkData);
+
   return (
     <a className="card" href={link} target="_blank">
       <div className="card__read-state-container">

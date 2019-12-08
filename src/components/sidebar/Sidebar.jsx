@@ -29,7 +29,7 @@ const Sidebar = () => {
   };
 
   const toggleContextMenu = e => {
-    setMenuLocation({ x: `${e.pageX}px`, y: `${e.pageY}px` });
+    setMenuLocation({ x: `${e.pageX}`, y: `${e.pageY}` });
     setMenuState(menuState ? false : true);
   };
 

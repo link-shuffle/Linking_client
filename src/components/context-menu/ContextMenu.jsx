@@ -14,8 +14,15 @@ const ContextMenu = ({ className, menuLocation, children }) => {
 };
 
 const ContextMenuBody = styled.div`
-  left: ${({ menuLocation }) => menuLocation.x};
-  top: ${({ menuLocation }) => menuLocation.y};
+  left: ${({ menuLocation }) => {
+    const viewWidth = window.innerWidth;
+    const menuX = parseInt(menuLocation.x);
+    const contextWidth = 200;
+    console.log(menuX, viewWidth);
+    if (menuX + contextWidth > viewWidth) return viewWidth - contextWidth;
+    return menuX;
+  }}px;
+  top: ${({ menuLocation }) => menuLocation.y}px;
 `;
 
 export default ContextMenu;
