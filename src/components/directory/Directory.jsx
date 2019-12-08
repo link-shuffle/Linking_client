@@ -1,19 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 
 import { ExpandBtnIcon, SettingBtnIcon, ShareBtnIcon } from "../../iconSVG";
 import ContextMenu from "../context-menu/ContextMenu";
+import { SidebarContext } from "../../MyContext";
 
 import "./directory.scss";
 
-const Directory = ({ children, dirName }) => {
+const Directory = ({ dirName, dirId }) => {
   const [expand, setExpand] = useState(false);
   const [reveal, setReveal] = useState(false);
   const [menuState, setMenuState] = useState(false);
   const [menuLocation, setMenuLocation] = useState({ x: 0, y: 0 });
+  const [dirList, setDirList] = useState([]);
+  const { setLinkDataList } = useContext(SidebarContext);
 
-  const rotateBtn = () => {
+  const rotateBtn = e => {
+    e.stopPropagation();
     setExpand(expand ? false : true);
+    if (!expand) getSubDirList();
+  };
+
+  const getSubDirList = async () => {
+    const response = await fetch(
+      `http://localhost:1024/directory/김정연/${dirId}`,
+      {
+        method: "POST"
+      }
+    );
+
+    const data = await response.json();
+    console.log(data);
+    await setDirList(data);
   };
 
   const showOptionBtn = () => {
@@ -33,10 +51,25 @@ const Directory = ({ children, dirName }) => {
     setMenuState(false);
   };
 
+  const getLinkData = async e => {
+    const response = await fetch(`http://localhost:1024/link/${dirId}/read`, {
+      method: "POST"
+    });
+    const data = await response.json();
+    const dataObj = { dirName, linkList: data };
+    setLinkDataList(dataObj);
+  };
+
+  const expandDir = dirListArr => {
+    return dirListArr.map(dirItem => (
+      <Directory dirName={dirItem.name} dirId={dirItem.dir_id} />
+    ));
+  };
+
   const getSubDir = () =>
     expand ? (
-      children.length ? (
-        children
+      dirList.length ? (
+        expandDir(dirList)
       ) : (
         <div className="directory__no-directory">No sub-directory</div>
       )
@@ -52,7 +85,7 @@ const Directory = ({ children, dirName }) => {
           onMouseOut={hideOptionBtn}
           className="directory-conatiner title-container"
         >
-          <div className="title-container__title">
+          <div className="title-container__title" onClick={getLinkData}>
             <ExpandBtn expand={expand} onClick={rotateBtn}>
               <ExpandBtnIcon fill="#A8A8A8" />
             </ExpandBtn>

@@ -11,7 +11,7 @@ import NotFound from "../../pages/error/NotFound";
 
 const authenticated = true;
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <Router>
@@ -22,6 +22,7 @@ function App() {
             authenticated={authenticated}
             component={Main}
           />
+          <Route path="/directory/:dir_name" component={Main} />
           <Route path="/login" component={Login} />
           <Route path="/Search" component={Search} />
           <Route component={NotFound} />
@@ -29,6 +30,6 @@ function App() {
       </Router>
     </div>
   );
-}
+};
 
 export default App;

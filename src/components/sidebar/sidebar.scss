@@ -10,13 +10,7 @@
   flex-direction: column;
   overflow: hidden;
   &__navbar {
-    padding: 16px;
-    display: flex;
-    & > .user-btn {
-      flex: 1;
-      padding: 4px;
-    }
-    & > .close-btn {
+    & > .fold-btn {
       flex: 0;
       width: 24px;
       height: 24px;
@@ -25,6 +19,25 @@
         background: #e3e3e3;
       }
     }
+  }
+}
+
+.user-btn {
+  flex: 1;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  cursor: pointer;
+  &:hover {
+    background: #e3e3e3;
+  }
+  &__img {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: red;
+    margin-right: 4px;
   }
 }
 

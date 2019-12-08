@@ -5,6 +5,7 @@
   flex: 0 1 24%;
   min-width: 240px;
   min-height: 200px;
+  max-width: 360px;
   display: flex;
   padding: 16px 24px 16px 16px;
   margin: 8px;
@@ -21,8 +22,16 @@
   }
   &__meta-title {
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 1rem;
     margin-bottom: 4px;
+    padding: 2px;
+    line-height: 1.2rem;
+    overflow: hidden;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
   }
   &__link-data {
     flex: 1 0;
@@ -31,29 +40,60 @@
     font-size: 0.8rem;
     color: #a2a2a2;
     margin-bottom: 8px;
+    & > div {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      width: 240px;
+      padding: 2px;
+      padding: 2px;
+    }
   }
   &__meta-desc {
     margin-bottom: 4px;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: #aaa;
+    line-height: 0.9rem;
+    padding-left: 8px;
+    overflow: hidden;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
   }
   &__user-desc {
-    margin-bottom: 16px;
+    padding: 2px;
+    overflow: hidden;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    margin-bottom: 8px;
   }
   &__meta-container {
     display: flex;
+    margin-bottom: 8px;
   }
   &__meta-text {
     flex: 1 0;
+    margin-right: 16px;
   }
   &__meta-img {
-    min-width: 88px;
-    min-height: 88px;
+    width: 88px;
+    height: 88px;
     overflow: hidden;
     border-radius: 16px;
-    flex: 0 1;
+    display: flex;
+    justify-content: center;
+
+    & > img {
+      height: 88px;
+    }
   }
   &__tag-list {
     display: flex;
+    flex-wrap: wrap;
   }
 }
