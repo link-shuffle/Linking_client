@@ -20,7 +20,9 @@ const Main = () => {
 
   const readFromClipboard = async () => {
     const response = await navigator.clipboard.readText();
-    console.log(response);
+    if (response) {
+      alert(response);
+    }
   };
 
   return (
