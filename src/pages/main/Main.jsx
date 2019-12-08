@@ -7,27 +7,30 @@ import { SidebarContext } from "../../MyContext";
 
 import "./main.scss";
 
-const Main = () => {
+const Main = ({ match }) => {
   const [hidden, setHidden] = useState(false);
-
+  const [linkData, setLinkData] = useState([]);
   const toggleSidebar = hidden => {
     setHidden(hidden);
   };
 
-  useEffect(() => {
-    readFromClipboard();
-  }, []);
-
-  const readFromClipboard = async () => {
-    const response = await navigator.clipboard.readText();
-    if (response) {
-      alert(response);
-    }
+  const setLinkDataList = linkData => {
+    setLinkData(linkData);
   };
+
+  // useEffect(() => {
+  //   readFromClipboard();
+  // }, []);
+
+  // const readFromClipboard = async () => {
+  //   const response = await navigator.clipboard.readText();
+  // };
 
   return (
     <div className="main">
-      <SidebarContext.Provider value={{ hidden, toggleSidebar }}>
+      <SidebarContext.Provider
+        value={{ hidden, toggleSidebar, linkData, setLinkDataList }}
+      >
         <Sidebar />
         <Layout className="contents">
           <LinkList className="link-list" />

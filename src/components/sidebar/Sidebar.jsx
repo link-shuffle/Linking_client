@@ -10,10 +10,10 @@ import styled from "styled-components";
 import "./sidebar.scss";
 
 const Sidebar = () => {
-  const { hidden, toggleSidebar } = useContext(SidebarContext);
+  const [initDirList, setInitDirList] = useState([]);
   const [menuState, setMenuState] = useState(false);
   const [menuLocation, setMenuLocation] = useState({ x: 0, y: 0 });
-  const [initDirList, setInitDirList] = useState([]);
+  const { hidden, toggleSidebar } = useContext(SidebarContext);
 
   useEffect(() => {
     getInitDirList();
@@ -21,13 +21,13 @@ const Sidebar = () => {
 
   const getInitDirList = async () => {
     const response = await fetch(
-      "http://106.10.39.188:1024/directory/김정연/private",
+      "http://localhost:1024/directory/김정연/private",
       {
         method: "POST"
       }
     );
-    const initDirList = await response.json();
-    setInitDirList(initDirList);
+    const data = await response.json();
+    await setInitDirList(data);
   };
 
   const toggleContextMenu = e => {
@@ -42,9 +42,10 @@ const Sidebar = () => {
   const closeSidebar = () => {
     toggleSidebar(true);
   };
+
   const expandDir = dirList => {
     return dirList.map(dirItem => (
-      <Directory dirName={dirItem.name}>{expandDir(dirItem.dirTree)}</Directory>
+      <Directory dirName={dirItem.name} dirId={dirItem.dir_id} />
     ));
   };
 

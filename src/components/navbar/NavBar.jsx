@@ -7,7 +7,7 @@ import styled from "styled-components";
 import "./navbar.scss";
 
 const NavBar = ({ className }) => {
-  const { hidden, toggleSidebar } = useContext(SidebarContext);
+  const { hidden, toggleSidebar, linkData } = useContext(SidebarContext);
 
   const openSidebar = () => {
     toggleSidebar(false);
@@ -23,7 +23,7 @@ const NavBar = ({ className }) => {
         <MenuBtnIcon fill="#333" />
       </SidebarBtn>
       <div className="navbar__directory-title">
-        <h1>Python</h1>
+        <h1>{linkData.dirName}</h1>
       </div>
     </div>
   );
