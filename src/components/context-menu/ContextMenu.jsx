@@ -18,7 +18,6 @@ const ContextMenuBody = styled.div`
     const viewWidth = window.innerWidth;
     const menuX = parseInt(menuLocation.x);
     const contextWidth = 200;
-    console.log(menuX, viewWidth);
     if (menuX + contextWidth > viewWidth) return viewWidth - contextWidth;
     return menuX;
   }}px;
