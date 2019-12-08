@@ -13,56 +13,7 @@ const Sidebar = () => {
   const { hidden, toggleSidebar } = useContext(SidebarContext);
   const [menuState, setMenuState] = useState(false);
   const [menuLocation, setMenuLocation] = useState({ x: 0, y: 0 });
-
-  const testDir = [
-    { name: "Programming", dirTree: [] },
-    { name: "Game", dirTree: [] },
-    {
-      name: "Videos3123123123123123",
-      dirTree: [
-        {
-          name: "Test",
-          dirTree: [
-            { name: "Videos3123123123123123", dirTree: [] },
-            {
-              name: "232423423",
-              dirTree: [
-                { name: "12312321312312", dirTree: [] },
-                { name: "12451241234123123", dirTree: [] }
-              ]
-            }
-          ]
-        },
-        {
-          name: "Test",
-          dirTree: [
-            { name: "Videos3123123123123123", dirTree: [] },
-            {
-              name: "232423423",
-              dirTree: [
-                { name: "12312321312312", dirTree: [] },
-                { name: "12451241234123123", dirTree: [] }
-              ]
-            }
-          ]
-        },
-        {
-          name: "Test",
-          dirTree: [
-            { name: "Videos3123123123123123", dirTree: [] },
-            {
-              name: "232423423",
-              dirTree: [
-                { name: "12312321312312", dirTree: [] },
-                { name: "12451241234123123", dirTree: [] }
-              ]
-            }
-          ]
-        },
-        { name: "test2", dirTree: [] }
-      ]
-    }
-  ];
+  const [initDirList, setInitDirList] = useState([]);
 
   useEffect(() => {
     getInitDirList();
@@ -70,14 +21,13 @@ const Sidebar = () => {
 
   const getInitDirList = async () => {
     const response = await fetch(
-      "http://106.10.39.188:1024/directory/김정연/public",
+      "http://106.10.39.188:1024/directory/김정연/private",
       {
-        method: "POST",
-        redirect: "follow"
+        method: "POST"
       }
     );
-
-    console.log(response.json());
+    const initDirList = await response.json();
+    setInitDirList(initDirList);
   };
 
   const toggleContextMenu = e => {
@@ -136,7 +86,7 @@ const Sidebar = () => {
           </button>
         </div>
         <div className="directory__list">
-          <ul>{expandDir(testDir)}</ul>
+          <ul>{expandDir(initDirList)}</ul>
         </div>
       </div>
     </SidebarContainer>
