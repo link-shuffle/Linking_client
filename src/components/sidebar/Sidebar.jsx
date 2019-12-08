@@ -6,6 +6,7 @@ import { FoldBtnIcon, PlusBtnIcon } from "../../iconSVG";
 import { SidebarContext } from "../../MyContext";
 
 import styled from "styled-components";
+import { baseUrl } from "../../config/base";
 
 import "./sidebar.scss";
 
@@ -20,12 +21,9 @@ const Sidebar = () => {
   }, []);
 
   const getInitDirList = async () => {
-    const response = await fetch(
-      "http://localhost:1024/directory/김정연/private",
-      {
-        method: "POST"
-      }
-    );
+    const response = await fetch(`${baseUrl}/directory/김정연/private`, {
+      method: "POST"
+    });
     const data = await response.json();
     await setInitDirList(data);
   };

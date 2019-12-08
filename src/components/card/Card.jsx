@@ -15,8 +15,9 @@ function Card({ linkData }) {
     read_status,
     tag
   } = linkData;
+  console.log(linkData);
   return (
-    <div className="card">
+    <a className="card" href={link} target="_blank">
       <div className="card__read-state-container">
         <ReadState
           className="card__read-state"
@@ -33,7 +34,7 @@ function Card({ linkData }) {
           </div>
           <div className="card__meta-img">
             <img
-              src={meta_imgUrl}
+              src={meta_imgUrl ? meta_imgUrl : ""}
               title={meta_title}
               alt="link thumbnail image"
             />
@@ -51,7 +52,7 @@ function Card({ linkData }) {
           ))}
         </ul>
       </div>
-    </div>
+    </a>
   );
 }
 const ReadState = styled.div`

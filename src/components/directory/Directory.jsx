@@ -5,6 +5,7 @@ import { ExpandBtnIcon, SettingBtnIcon, ShareBtnIcon } from "../../iconSVG";
 import ContextMenu from "../context-menu/ContextMenu";
 import { SidebarContext } from "../../MyContext";
 
+import { baseUrl } from "../../config/base";
 import "./directory.scss";
 
 const Directory = ({ dirName, dirId }) => {
@@ -22,12 +23,9 @@ const Directory = ({ dirName, dirId }) => {
   };
 
   const getSubDirList = async () => {
-    const response = await fetch(
-      `http://localhost:1024/directory/김정연/${dirId}`,
-      {
-        method: "POST"
-      }
-    );
+    const response = await fetch(`${baseUrl}/directory/김정연/${dirId}`, {
+      method: "POST"
+    });
 
     const data = await response.json();
     console.log(data);
@@ -52,7 +50,7 @@ const Directory = ({ dirName, dirId }) => {
   };
 
   const getLinkData = async e => {
-    const response = await fetch(`http://localhost:1024/link/${dirId}/read`, {
+    const response = await fetch(`${baseUrl}/link/${dirId}/read`, {
       method: "POST"
     });
     const data = await response.json();
