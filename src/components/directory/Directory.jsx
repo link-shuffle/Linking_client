@@ -114,14 +114,7 @@ const Directory = ({ dirName, dirId }) => {
                     <div className="inner_item">Rename</div>
                   </div>
                   <div className="context_item">
-                    <div className="inner_item">Duplicate</div>
-                  </div>
-                  <div className="context_item">
-                    <div className="inner_item">Remove</div>
-                  </div>
-                  <div className="context_hr"></div>
-                  <div className="context_item">
-                    <div className="inner_item">Move to</div>
+                    <div className="inner_item">Delete</div>
                   </div>
                 </ContextMenu>
               </ContextContainer>

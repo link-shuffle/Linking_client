@@ -1,0 +1,9 @@
+.edit-form {
+  display: flex;
+  & __input {
+    flex: 1;
+  }
+  & __submit-btn {
+    flex: 1;
+  }
+}

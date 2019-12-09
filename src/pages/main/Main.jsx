@@ -23,7 +23,7 @@ const Main = ({ match }) => {
   }, []);
 
   const readFromClipboard = async () => {
-    const response = await navigator.clipboard.readText();
+    await navigator.clipboard.readText();
   };
 
   return (
