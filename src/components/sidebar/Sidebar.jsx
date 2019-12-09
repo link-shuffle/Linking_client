@@ -125,6 +125,9 @@ const SidebarContainer = styled.div`
   width: ${({ hidden }) => {
     return hidden ? "0px" : "240px";
   }}};
+  display: ${({ hidden }) => {
+    return hidden ? "none" : "flex";
+  }}};
 `;
 
 const ContextContainer = styled.div`
