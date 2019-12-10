@@ -52,8 +52,16 @@ const Sidebar = () => {
       </List.Item>
     ));
   };
-  const sendReject = () => {};
-  const sendAccept = () => {};
+  const sendReject = () => {
+    await fetch(`${baseUrl}/mail/${userName}/${targetUser}/1`, {
+      method: "POST",
+    });
+  };
+  const sendAccept = () => {
+    await fetch(`${baseUrl}/mail/${userName}/${targetUser}/2`, {
+      method: "POST",
+    });
+  };
 
   useEffect(() => {
     fetch(`${baseUrl}/mail/${userName}/mailnumber`, {
