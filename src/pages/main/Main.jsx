@@ -7,6 +7,7 @@ import { MainContext } from "../../MyContext";
 import "./main.scss";
 
 const Main = ({ match }) => {
+  sessionStorage.setItem("name", "vincentj");
   const [isVisibleSidebar, setIsVisibleSidebar] = useState(false);
   const [linkData, setLinkData] = useState([]);
   const [copiedLink, setCopiedLink] = useState("");
