@@ -26,47 +26,73 @@ const Sidebar = () => {
   const toggleModal = e => {
     setModalClose(modalClose ? false : true);
   };
-  const getMessageList = e => {
-    console.log(e);
-  };
 
   const showMessageList = ({ messageList }) => {
-    return messageList.map(message => (
-      <List.Item>
-        <List.Content>
-          <List.Header>{message.message}</List.Header>
-          <List.Description>{message.display_name}</List.Description>
-        </List.Content>
-        <List.Icon
-          name="close"
-          size="large"
-          verticalAlign="middle"
-          data-targetUser={message.display_name}
-          onClick={sendReject}
-        />
-        <List.Icon
-          name="check"
-          size="large"
-          verticalAlign="middle"
-          data-targetUser={message.display_name}
-          onClick={sendAccept}
-        />
-      </List.Item>
-    ));
+    return messageList.map(message => {
+      console.log(message);
+      return (
+        <List.Item>
+          <List.Content>
+            <List.Header>{message.message}</List.Header>
+            <List.Description>{message.display_name}</List.Description>
+          </List.Content>
+          <List.Icon
+            name="close"
+            size="large"
+            verticalAlign="middle"
+            data-targetUser={message.sender}
+            data-targetId={message.mail_id}
+            onClick={sendReject}
+          />
+          <List.Icon
+            name="check"
+            size="large"
+            verticalAlign="middle"
+            data-targetUser={message.sender}
+            data-targetId={message.mail_id}
+            onClick={sendAccept}
+          />
+        </List.Item>
+      );
+    });
   };
+
   const sendReject = async e => {
+    const msgId = e.currentTarget.dataset.targetid;
     const targetUser = e.currentTarget.dataset.targetuser;
+    console.log(userName, targetUser);
 
     await fetch(`${baseUrl}/mail/${userName}/${targetUser}/1`, {
-      method: "POST"
+      method: "POST",
+      body: JSON.stringify({ mail_id: msgId })
     });
+    await fetch(`${baseUrl}/mail/${msgId}/delete`, {
+      method: "GET"
+    });
+    const res = await fetch(`${baseUrl}/mail/${userName}/mailList`, {
+      method: "GET"
+    });
+    const data = await res.json();
+    console.log(msgList);
+    setMsgList(data);
+    toggleModal();
   };
   const sendAccept = async e => {
+    const msgId = e.currentTarget.dataset.targetid;
     const targetUser = e.currentTarget.dataset.targetuser;
-
     await fetch(`${baseUrl}/mail/${userName}/${targetUser}/2`, {
-      method: "POST"
+      method: "POST",
+      body: JSON.stringify({ mail_id: msgId })
     });
+    await fetch(`${baseUrl}/mail/${msgId}/delete`, {
+      method: "GET"
+    });
+    const res = await fetch(`${baseUrl}/mail/${userName}/mailList`, {
+      method: "GET"
+    });
+    const data = await res.json();
+    setMsgList(data);
+    toggleModal();
   };
 
   useEffect(() => {
@@ -113,7 +139,6 @@ const Sidebar = () => {
         closeOnDimmerClick={true}
         open={modalClose}
         onClose={toggleModal}
-        onOpen={getMessageList}
       >
         <Modal.Header>Message List</Modal.Header>
         <Modal.Content scrolling>
