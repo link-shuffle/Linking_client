@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-function AuthRoute({ authenticated, component: Component, ...rest }) {
+const AuthRoute = ({ authenticated, component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
@@ -14,6 +14,6 @@ function AuthRoute({ authenticated, component: Component, ...rest }) {
       }
     />
   );
-}
+};
 
 export default AuthRoute;
