@@ -1,13 +1,15 @@
-import React, { useContext } from "react";
-import { SidebarContext } from "../../MyContext";
+import React from "react";
+import { useMainContext } from "../../MyContext";
 import { MenuBtnIcon } from "../../iconSVG";
+
+import { Icon } from "semantic-ui-react";
 
 import styled from "styled-components";
 
 import "./navbar.scss";
 
 const NavBar = ({ className }) => {
-  const { hidden, toggleSidebar, linkData } = useContext(SidebarContext);
+  const { isVisibleSidebar, toggleSidebar, linkData } = useMainContext();
 
   const openSidebar = () => {
     toggleSidebar(false);
@@ -17,7 +19,7 @@ const NavBar = ({ className }) => {
     <div className={className}>
       <SidebarBtn
         className="navbar__sidebar-btn"
-        hidden={hidden}
+        isVisibleSidebar={isVisibleSidebar}
         onClick={openSidebar}
       >
         <MenuBtnIcon fill="#333" />
@@ -25,11 +27,16 @@ const NavBar = ({ className }) => {
       <div className="navbar__directory-title">
         <h1>{linkData.dirName}</h1>
       </div>
+      <div className="navbar__search-icon">
+        <a href="/search">
+          <Icon name="search" />
+        </a>
+      </div>
     </div>
   );
 };
 const SidebarBtn = styled.button`
-  display: ${({ hidden }) => (hidden ? "block" : "none")};
+  display: ${({ isVisibleSidebar }) => (isVisibleSidebar ? "block" : "none")};
 `;
 
 export default NavBar;

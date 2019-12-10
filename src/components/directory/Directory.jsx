@@ -2,19 +2,26 @@ import React, { useState, useContext } from "react";
 import styled from "styled-components";
 
 import { ExpandBtnIcon, SettingBtnIcon, ShareBtnIcon } from "../../iconSVG";
-import ContextMenu from "../context-menu/ContextMenu";
-import { SidebarContext } from "../../MyContext";
+import { useMainContext } from "../../MyContext";
+import { Button, Modal, Input, Icon, List } from "semantic-ui-react";
 
 import { baseUrl } from "../../config/base";
 import "./directory.scss";
 
-const Directory = ({ dirName, dirId }) => {
+const Directory = ({ dirName, dirId, index }) => {
+  const userName = sessionStorage.getItem("name");
+
   const [expand, setExpand] = useState(false);
   const [reveal, setReveal] = useState(false);
-  const [menuState, setMenuState] = useState(false);
-  const [menuLocation, setMenuLocation] = useState({ x: 0, y: 0 });
-  const [dirList, setDirList] = useState([]);
-  const { setLinkDataList } = useContext(SidebarContext);
+  const [subDirList, setSubDirList] = useState([]);
+  const { setLinkDataList } = useMainContext();
+  const [modalClose, setModalClose] = useState(false);
+  const [searchResult, setSearchResult] = useState([]);
+  const [targetUser, setTargetUser] = useState("");
+
+  const toggleModal = e => {
+    setModalClose(modalClose ? false : true);
+  };
 
   const rotateBtn = e => {
     e.stopPropagation();
@@ -23,31 +30,55 @@ const Directory = ({ dirName, dirId }) => {
   };
 
   const getSubDirList = async () => {
-    const response = await fetch(`${baseUrl}/directory/김정연/${dirId}`, {
+    const response = await fetch(`${baseUrl}/directory/${userName}/${dirId}`, {
       method: "POST"
     });
 
     const data = await response.json();
-    await setDirList(data);
+    await setSubDirList(data);
   };
 
-  const showOptionBtn = () => {
-    setReveal(true);
+  const toggleOptionBtn = () => {
+    setReveal(reveal ? false : true);
   };
 
-  const hideOptionBtn = () => {
-    setReveal(false);
+  const handleClickTarget = async e => {
+    const targetUser = e.currentTarget.dataset.targetuser;
+    await fetch(`${baseUrl}/mail/${userName}/${targetUser}/0`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ dir_id: dirId })
+    });
+    await toggleModal();
   };
 
-  const toggleContextMenu = e => {
-    e.stopPropagation();
-    setMenuLocation({ x: `${e.pageX}`, y: `${e.pageY}` });
-    setMenuState(menuState ? false : true);
+  const handleSearch = async e => {
+    const response = await fetch(
+      `${baseUrl}/search/${userName}/${e.target.value}`,
+      {
+        method: "GET"
+      }
+    );
+    const data = await response.json();
+    setSearchResult(data);
   };
 
-  const removeContextMenu = e => {
-    e.stopPropagation();
-    setMenuState(false);
+  const showUserList = ({ userList }) => {
+    return userList.map(user => (
+      <List.Item
+        data-targetUser={user.display_name}
+        onClick={handleClickTarget}
+      >
+        <List.Icon name="github" size="large" verticalAlign="middle" />
+        <List.Content>
+          <List.Header>{user.display_name}</List.Header>
+          <List.Description>{user.name}</List.Description>
+        </List.Content>
+        <List.Icon verticalAlign="middle">
+          <Button>{() => (user.following_status ? "팔로잉" : "팔로우")}</Button>
+        </List.Icon>
+      </List.Item>
+    ));
   };
 
   const getLinkData = async e => {
@@ -56,20 +87,14 @@ const Directory = ({ dirName, dirId }) => {
       method: "POST"
     });
     const data = await response.json();
-    const dataObj = { dirName, linkList: data };
+    const dataObj = { dirName, dirId, linkList: data };
     setLinkDataList(dataObj);
-  };
-
-  const expandDir = dirListArr => {
-    return dirListArr.map(dirItem => (
-      <Directory dirName={dirItem.name} dirId={dirItem.dir_id} />
-    ));
   };
 
   const getSubDir = () =>
     expand ? (
-      dirList.length ? (
-        expandDir(dirList)
+      subDirList.length ? (
+        expandDir(subDirList)
       ) : (
         <div className="directory__no-directory">No sub-directory</div>
       )
@@ -77,12 +102,18 @@ const Directory = ({ dirName, dirId }) => {
       ""
     );
 
+  const expandDir = dirListArr => {
+    return dirListArr.map(dirItem => (
+      <Directory dirName={dirItem.name} dirId={dirItem.dir_id} />
+    ));
+  };
+
   return (
-    <li className="directory-container">
+    <li className="directory-container" key={index}>
       <div className="directory">
         <div
-          onMouseOver={showOptionBtn}
-          onMouseOut={hideOptionBtn}
+          onMouseOver={toggleOptionBtn}
+          onMouseOut={toggleOptionBtn}
           className="directory-conatiner title-container"
         >
           <div className="title-container__title" onClick={getLinkData}>
@@ -92,37 +123,41 @@ const Directory = ({ dirName, dirId }) => {
             <div>{dirName}</div>
           </div>
           <OptionBtnArea reveal={reveal} className="title-container__option">
-            <button>
+            <button onClick={toggleModal}>
               <SettingBtnIcon fill="#797979" />
             </button>
 
-            <button onClick={toggleContextMenu}>
+            <button>
               <ShareBtnIcon fill="#797979" />
-              <ContextContainer
-                menuState={menuState}
-                onClick={removeContextMenu}
-              >
-                <ContextMenu
-                  className="directory-context"
-                  menuLocation={menuLocation}
-                  menuState={menuState}
-                >
-                  <div className="context_item">
-                    <div className="inner_item">New Directory</div>
-                  </div>
-                  <div className="context_item">
-                    <div className="inner_item">Rename</div>
-                  </div>
-                  <div className="context_item">
-                    <div className="inner_item">Delete</div>
-                  </div>
-                </ContextMenu>
-              </ContextContainer>
             </button>
           </OptionBtnArea>
         </div>
         <ul className="directory__sub-directory">{getSubDir()}</ul>
       </div>
+      <Modal
+        size="tiny"
+        closeOnEscape={false}
+        closeOnDimmerClick={true}
+        open={modalClose}
+        onClose={toggleModal}
+      >
+        <Modal.Header>
+          Share with:
+          <Input
+            icon="search"
+            placeholder="Search..."
+            onChange={handleSearch}
+          />
+        </Modal.Header>
+        <Modal.Content scrolling>
+          <List divided relaxed>
+            {showUserList({ userList: searchResult })}
+          </List>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button onClick={toggleModal}>Complete</Button>
+        </Modal.Actions>
+      </Modal>
     </li>
   );
 };
@@ -136,16 +171,6 @@ const ExpandBtn = styled.button`
 
 const OptionBtnArea = styled.div`
   display: ${({ reveal }) => (reveal ? "flex" : "none")};
-`;
-
-const ContextContainer = styled.div`
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  z-index: 20;
-  left: 0;
-  top: 0;
-  display: ${({ menuState }) => (menuState ? "block" : "none")};
 `;
 
 export default Directory;

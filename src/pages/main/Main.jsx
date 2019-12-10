@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/layout/Layout";
 import Sidebar from "../../components/sidebar/Sidebar";
-
 import LinkList from "../../components/link-list/LinkList";
-import { SidebarContext } from "../../MyContext";
+import { MainContext } from "../../MyContext";
 
 import "./main.scss";
 
 const Main = ({ match }) => {
-  const [hidden, setHidden] = useState(false);
+  const [isVisibleSidebar, setIsVisibleSidebar] = useState(false);
   const [linkData, setLinkData] = useState([]);
-  const toggleSidebar = hidden => {
-    setHidden(hidden);
+  const [copiedLink, setCopiedLink] = useState("");
+
+  const toggleSidebar = isVisibleSidebar => {
+    setIsVisibleSidebar(isVisibleSidebar);
   };
 
   const setLinkDataList = linkData => {
@@ -23,19 +24,22 @@ const Main = ({ match }) => {
   }, []);
 
   const readFromClipboard = async () => {
-    await navigator.clipboard.readText();
+    const link = await window.navigator.clipboard.readText();
+    if (link) {
+      await setCopiedLink(link);
+    }
   };
 
   return (
     <div className="main">
-      <SidebarContext.Provider
-        value={{ hidden, toggleSidebar, linkData, setLinkDataList }}
+      <MainContext.Provider
+        value={{ isVisibleSidebar, toggleSidebar, linkData, setLinkDataList }}
       >
         <Sidebar />
         <Layout className="contents">
           <LinkList className="link-list" />
         </Layout>
-      </SidebarContext.Provider>
+      </MainContext.Provider>
     </div>
   );
 };

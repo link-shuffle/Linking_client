@@ -1,9 +1,10 @@
-import React from "react";
-import Tag from "../tag/Tag";
+import React, { useState } from "react";
+import styled from "styled-components";
 
 import "./card.scss";
+import { baseUrl } from "../../config/base";
 
-import styled from "styled-components";
+import Tag from "../tag/Tag";
 
 function Card({ linkData }) {
   const {
@@ -13,15 +14,24 @@ function Card({ linkData }) {
     meta_imgUrl,
     meta_title,
     read_status,
-    tag
+    tag,
+    link_id
   } = linkData;
 
+  const [readStatus, setReadStatus] = useState(read_status);
+
+  const toggleReadStatus = async () => {
+    await setReadStatus(readStatus ? 0 : 1);
+    await fetch(`${baseUrl}/link/${link_id}/readchange`, {
+      method: "POST"
+    });
+  };
   return (
-    <a className="card" href={link} target="_blank">
+    <a className="card" href={link} target="_blank" onClick={toggleReadStatus}>
       <div className="card__read-state-container">
         <ReadState
           className="card__read-state"
-          readStatus={read_status}
+          readStatus={readStatus}
         ></ReadState>
       </div>
       <div className="card__link-data">
@@ -56,7 +66,7 @@ function Card({ linkData }) {
   );
 }
 const ReadState = styled.div`
-  background: ${({ readStatus }) => (readStatus ? "#0091ff" : "")};
+  background: ${({ readStatus }) => (readStatus ? "" : "#0091ff")};
 `;
 
 export default Card;

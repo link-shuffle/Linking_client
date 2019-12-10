@@ -1,143 +1,116 @@
-import React, { useEffect, useContext, useState } from "react";
-
-import Directory from "../directory/Directory";
-import ContextMenu from "../context-menu/ContextMenu";
-import EditForm from "../edit-form/EditForm";
-import { FoldBtnIcon, PlusBtnIcon } from "../../iconSVG";
-import { SidebarContext } from "../../MyContext";
-
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { Button, Icon, List, Label, Modal } from "semantic-ui-react";
+
+import { FoldBtnIcon } from "../../iconSVG";
+import { useMainContext } from "../../MyContext";
 import { baseUrl } from "../../config/base";
+
+import DirList from "../dir-list/DirList";
 
 import "./sidebar.scss";
 
 const Sidebar = () => {
-  const [privateDir, setPrivateDir] = useState([]);
-  const [publicDir, setPublicDir] = useState([]);
-  const [sharedDir, setSharedDir] = useState([]);
-  const [menuState, setMenuState] = useState(false);
-  const [menuLocation, setMenuLocation] = useState({ x: 0, y: 0 });
-  const [menuList, setMenuList] = useState([]);
-  const { hidden, toggleSidebar } = useContext(SidebarContext);
+  const userName = sessionStorage.getItem("name");
+  const userImgUrl = sessionStorage.getItem("imgUrl");
+  const [msgNumb, setMsgNumb] = useState("0");
+  const [msgList, setMsgList] = useState([]);
+  const [modalClose, setModalClose] = useState(false);
 
-  useEffect(() => {
-    fetch(`${baseUrl}/directory/김정연/private`, {
-      method: "POST"
-    })
-      .then(res => res.json())
-      .then(data => setPrivateDir(data));
-    fetch(`${baseUrl}/directory/김정연/show/shared`, {
-      method: "POST"
-    })
-      .then(res => res.json())
-      .then(data => setSharedDir(data));
-    fetch(`${baseUrl}/directory/김정연/public`, {
-      method: "POST"
-    })
-      .then(res => res.json())
-      .then(data => setPublicDir(data));
-  }, []);
-
-  const toggleContextMenu = e => {
-    switch (e.currentTarget.className) {
-      case "user-btn":
-        setMenuList(["Settings", "Help", "Logout"]);
-        break;
-      case "plus-btn":
-        setMenuList("edit-mode");
-        break;
-    }
-    setMenuLocation({ x: `${e.pageX}`, y: `${e.pageY}` });
-    setMenuState(menuState ? false : true);
-  };
-
-  const removeContextMenu = e => {
-    setMenuState(false);
-  };
+  const { isVisibleSidebar, toggleSidebar } = useMainContext();
 
   const closeSidebar = () => {
     toggleSidebar(true);
   };
 
-  const getMenuList = () => {
-    if (menuList === "edit-mode") return <EditForm type="Add" />;
-    return menuList.map(menu => (
-      <div className="context_item">
-        <div className="inner_item">{menu}</div>
-      </div>
+  const toggleModal = e => {
+    setModalClose(modalClose ? false : true);
+  };
+  const getMessageList = e => {
+    console.log(e);
+  };
+
+  const showMessageList = ({ messageList }) => {
+    return messageList.map(message => (
+      <List.Item>
+        <List.Content>
+          <List.Header>{message.message}</List.Header>
+          <List.Description>{message.display_name}</List.Description>
+        </List.Content>
+        <List.Icon name="close" size="large" verticalAlign="middle" />
+        <List.Icon name="check" size="large" verticalAlign="middle"></List.Icon>
+      </List.Item>
     ));
   };
 
-  const expandDir = dirList => {
-    return dirList.map(dirItem => (
-      <Directory dirName={dirItem.name} dirId={dirItem.dir_id} />
-    ));
-  };
+  useEffect(() => {
+    fetch(`${baseUrl}/mail/${userName}/mailnumber`, {
+      method: "GET"
+    })
+      .then(res => res.json())
+      .then(data => setMsgNumb(data.mailnumber));
+
+    fetch(`${baseUrl}/mail/${userName}/mailList`, {
+      method: "GET"
+    })
+      .then(res => res.json())
+      .then(data => setMsgList(data));
+  }, []);
 
   return (
-    <SidebarContainer hidden={hidden} className="sidebar">
-      <ContextContainer menuState={menuState} onClick={removeContextMenu}>
-        <ContextMenu menuState={menuState} menuLocation={menuLocation}>
-          {getMenuList()}
-        </ContextMenu>
-      </ContextContainer>
+    <SidebarContainer isVisibleSidebar={isVisibleSidebar} className="sidebar">
       <div className="sidebar__navbar navbar">
-        <div className="user-btn" onClick={toggleContextMenu}>
-          <div className="user-btn__img"></div>
-          <div className="user-btn__title">User Name</div>
+        <div className="user-btn">
+          <div className="user-btn__img">
+            <img src={userImgUrl ? userImgUrl : ""} alt="user-profile" />
+          </div>
+          <div className="user-btn__title">{userName}</div>
         </div>
+        <MsgDisplay onClick={toggleModal}>
+          <Label color={msgNumb ? "" : "red"}>
+            <Icon name="mail" />
+            {msgNumb}
+          </Label>
+        </MsgDisplay>
         <button className="fold-btn" onClick={closeSidebar}>
           <FoldBtnIcon fill="#A8A8A8" />
         </button>
       </div>
-      <div className="sidebar__directory directory">
-        <div className="directory__type">
-          <div>Private</div>
-          <button className="plus-btn" onClick={toggleContextMenu}>
-            <PlusBtnIcon fill="#A8A8A8" />
-          </button>
-        </div>
-        <div className="directory__list">
-          <ul>{expandDir(privateDir)}</ul>
-        </div>
+      <div className="sidebar__directory">
+        <DirList type="private" />
+        <DirList type="shared" />
+        <DirList type="public" />
       </div>
-      <div className="sidebar__directory directory">
-        <div className="directory__type">
-          <div>Shared</div>
-        </div>
-        <div className="directory__list">
-          <ul>{expandDir(sharedDir)}</ul>
-        </div>
-      </div>
-      <div className="sidebar__directory directory">
-        <div className="directory__type">
-          <div>Public</div>
-        </div>
-        <div className="directory__list">
-          <ul>{expandDir(publicDir)}</ul>
-        </div>
-      </div>
+      <Modal
+        size="tiny"
+        closeOnEscape={false}
+        closeOnDimmerClick={true}
+        open={modalClose}
+        onClose={toggleModal}
+        onOpen={getMessageList}
+      >
+        <Modal.Header>Message List</Modal.Header>
+        <Modal.Content scrolling>
+          <List divided relaxed>
+            {showMessageList({ messageList: msgList })}
+          </List>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button onClick={toggleModal}>Complete</Button>
+        </Modal.Actions>
+      </Modal>
     </SidebarContainer>
   );
 };
 
 const SidebarContainer = styled.div`
-  width: ${({ hidden }) => {
-    return hidden ? "0px" : "240px";
-  }}};
-  display: ${({ hidden }) => {
-    return hidden ? "none" : "flex";
+  width: ${({ isVisibleSidebar }) => {
+    return isVisibleSidebar ? "0px" : "240px";
   }}};
 `;
 
-const ContextContainer = styled.div`
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  z-index: 10;
-  left: 0;
-  top: 0;
-  display: ${({ menuState }) => (menuState ? "block" : "none")};
+const MsgDisplay = styled.div`
+  cursor: pointer;
 `;
 
 export default Sidebar;

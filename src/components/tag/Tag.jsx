@@ -10,8 +10,8 @@ const Tag = ({ name }) => {
 };
 
 const TagItem = styled.div`
-  background: #ffe18e;
-  color: #3e3e3e;
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
   margin-right: 4px;
   padding: 6px 12px;
   border-radius: 10px;
