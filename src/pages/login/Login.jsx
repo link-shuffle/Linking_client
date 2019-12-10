@@ -18,9 +18,8 @@ const Login = () => {
       body: JSON.stringify(userData)
     });
     // sessionStorage.setItem("name", userData.name);
-    sessionStorage.setItem("name", "vincentj");
-
-    sessionStorage.setItem("imgUrl", googleUser.imageUrl);
+    // sessionStorage.setItem("name", "vincentj");
+    // sessionStorage.setItem("imgUrl", googleUser.imageUrl);
   };
 
   const responseFail = async err => {
