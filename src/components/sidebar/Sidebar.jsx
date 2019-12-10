@@ -37,11 +37,23 @@ const Sidebar = () => {
           <List.Header>{message.message}</List.Header>
           <List.Description>{message.display_name}</List.Description>
         </List.Content>
-        <List.Icon name="close" size="large" verticalAlign="middle" />
-        <List.Icon name="check" size="large" verticalAlign="middle"></List.Icon>
+        <List.Icon
+          name="close"
+          size="large"
+          verticalAlign="middle"
+          onClick={sendReject}
+        />
+        <List.Icon
+          name="check"
+          size="large"
+          verticalAlign="middle"
+          onClick={sendAccept}
+        />
       </List.Item>
     ));
   };
+  const sendReject = () => {};
+  const sendAccept = () => {};
 
   useEffect(() => {
     fetch(`${baseUrl}/mail/${userName}/mailnumber`, {
