@@ -41,25 +41,31 @@ const Sidebar = () => {
           name="close"
           size="large"
           verticalAlign="middle"
+          data-targetUser={message.display_name}
           onClick={sendReject}
         />
         <List.Icon
           name="check"
           size="large"
           verticalAlign="middle"
+          data-targetUser={message.display_name}
           onClick={sendAccept}
         />
       </List.Item>
     ));
   };
-  const sendReject = () => {
+  const sendReject = async e => {
+    const targetUser = e.currentTarget.dataset.targetuser;
+
     await fetch(`${baseUrl}/mail/${userName}/${targetUser}/1`, {
-      method: "POST",
+      method: "POST"
     });
   };
-  const sendAccept = () => {
+  const sendAccept = async e => {
+    const targetUser = e.currentTarget.dataset.targetuser;
+
     await fetch(`${baseUrl}/mail/${userName}/${targetUser}/2`, {
-      method: "POST",
+      method: "POST"
     });
   };
 
