@@ -20,6 +20,7 @@ const Directory = ({ dirName, dirId, index }) => {
   const [targetUser, setTargetUser] = useState("");
 
   const toggleModal = e => {
+    e.stopPropagation();
     setModalClose(modalClose ? false : true);
   };
 
@@ -38,11 +39,13 @@ const Directory = ({ dirName, dirId, index }) => {
     await setSubDirList(data);
   };
 
-  const toggleOptionBtn = () => {
+  const toggleOptionBtn = e => {
+    e.stopPropagation();
     setReveal(reveal ? false : true);
   };
 
   const handleClickTarget = async e => {
+    e.stopPropagation();
     const targetUser = e.currentTarget.dataset.targetuser;
     await fetch(`${baseUrl}/mail/${userName}/${targetUser}/0`, {
       method: "POST",
@@ -69,14 +72,14 @@ const Directory = ({ dirName, dirId, index }) => {
         data-targetUser={user.display_name}
         onClick={handleClickTarget}
       >
-        <List.Icon name="github" size="large" verticalAlign="middle" />
-        <List.Content>
-          <List.Header>{user.display_name}</List.Header>
-          <List.Description>{user.name}</List.Description>
-        </List.Content>
-        <List.Icon verticalAlign="middle">
-          <Button>{() => (user.following_status ? "팔로잉" : "팔로우")}</Button>
-        </List.Icon>
+        <AlignedItem>
+          <List.Icon name="github" size="large" />
+          <List.Content>
+            <div>{user.display_name}</div>
+            <div>{user.name}</div>
+          </List.Content>
+          <Button>{user.following_status ? "팔로잉" : "팔로우"}</Button>
+        </AlignedItem>
       </List.Item>
     ));
   };
@@ -144,15 +147,14 @@ const Directory = ({ dirName, dirId, index }) => {
         <Modal.Header>
           Share with:
           <Input
+            size="mini"
             icon="search"
             placeholder="Search..."
             onChange={handleSearch}
           />
         </Modal.Header>
         <Modal.Content scrolling>
-          <List divided relaxed>
-            {showUserList({ userList: searchResult })}
-          </List>
+          <List>{showUserList({ userList: searchResult })}</List>
         </Modal.Content>
         <Modal.Actions>
           <Button onClick={toggleModal}>Complete</Button>
@@ -171,6 +173,16 @@ const ExpandBtn = styled.button`
 
 const OptionBtnArea = styled.div`
   display: ${({ reveal }) => (reveal ? "flex" : "none")};
+`;
+const AlignedItem = styled.div`
+  display: flex;
+  cursor: pointer;
+  &:hover {
+    background: #eee;
+  }
+  & > div {
+    flex: 1;
+  }
 `;
 
 export default Directory;

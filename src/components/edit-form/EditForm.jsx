@@ -7,7 +7,7 @@ const EditForm = ({ type }) => {
         <input type="text" />
       </div>
       <div className="edit-form__submit-btn">
-        <button>{type}</button>
+        <button type="button">{type}</button>
       </div>
     </div>
   );
