@@ -17,7 +17,11 @@ const LinkList = ({ className }) => {
   const [tags, setTags] = useState([]);
   const [modalClose, setModalClose] = useState(false);
   const [inputData, setInputData] = useState({});
-  const { linkData, setLinkDataList } = useMainContext();
+  const { linkData, setLinkDataList, copiedLink } = useMainContext();
+
+  window.addEventListener("beforeunload", event => {
+    localStorage.setItem("dirId", linkData.dirId);
+  });
 
   const getLinkList = () => {
     const linkList = linkData.linkList ? linkData.linkList : [];

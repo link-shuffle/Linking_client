@@ -8,6 +8,7 @@ import "./main.scss";
 
 const Main = ({ match }) => {
   sessionStorage.setItem("name", "vincentj");
+
   const [isVisibleSidebar, setIsVisibleSidebar] = useState(false);
   const [linkData, setLinkData] = useState([]);
   const [copiedLink, setCopiedLink] = useState("");
@@ -25,6 +26,7 @@ const Main = ({ match }) => {
   }, []);
 
   const readFromClipboard = async () => {
+    console.log(localStorage);
     const link = await window.navigator.clipboard.readText();
     if (link) {
       await setCopiedLink(link);
@@ -34,7 +36,13 @@ const Main = ({ match }) => {
   return (
     <div className="main">
       <MainContext.Provider
-        value={{ isVisibleSidebar, toggleSidebar, linkData, setLinkDataList }}
+        value={{
+          isVisibleSidebar,
+          toggleSidebar,
+          linkData,
+          setLinkDataList,
+          copiedLink
+        }}
       >
         <Sidebar />
         <Layout className="contents">
