@@ -30,28 +30,49 @@ const Sidebar = () => {
   const showMessageList = ({ messageList }) => {
     return messageList.map(message => {
       console.log(message);
+
+      console.log(message.status);
       return (
         <List.Item>
           <List.Content>
             <List.Header>{message.message}</List.Header>
             <List.Description>{message.display_name}</List.Description>
           </List.Content>
-          <List.Icon
-            name="close"
-            size="large"
-            verticalAlign="middle"
-            data-targetUser={message.sender}
-            data-targetId={message.mail_id}
-            onClick={sendReject}
-          />
-          <List.Icon
-            name="check"
-            size="large"
-            verticalAlign="middle"
-            data-targetUser={message.sender}
-            data-targetId={message.mail_id}
-            onClick={sendAccept}
-          />
+          {message.status == 1 ? (
+            <div>
+              <List.Icon
+                color="red"
+                name="close"
+                size="middle"
+                verticalAlign="middle"
+                data-targetUser={message.sender}
+                data-targetId={message.mail_id}
+                onClick={sendReject}
+              />
+              <List.Icon
+                color="green"
+                name="check"
+                size="middle"
+                verticalAlign="middle"
+                data-targetUser={message.sender}
+                data-targetId={message.mail_id}
+                data-dirId={message.dir_id}
+                onClick={sendAccept}
+              />
+            </div>
+          ) : (
+            <div>
+              <List.Icon
+                color="grey"
+                name="trash alternate"
+                size="middle"
+                verticalAlign="middle"
+                data-targetUser={message.sender}
+                data-targetId={message.mail_id}
+                onClick={deleteMessage}
+              />
+            </div>
+          )}
         </List.Item>
       );
     });
@@ -60,10 +81,11 @@ const Sidebar = () => {
   const sendReject = async e => {
     const msgId = e.currentTarget.dataset.targetid;
     const targetUser = e.currentTarget.dataset.targetuser;
-    console.log(userName, targetUser);
+    const dirId = e.currentTarget.dataset.dirId;
 
     await fetch(`${baseUrl}/mail/${userName}/${targetUser}/1`, {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ mail_id: msgId })
     });
     await fetch(`${baseUrl}/mail/${msgId}/delete`, {
@@ -73,17 +95,47 @@ const Sidebar = () => {
       method: "GET"
     });
     const data = await res.json();
-    console.log(msgList);
     setMsgList(data);
-    toggleModal();
+    fetch(`${baseUrl}/mail/${userName}/mailnumber`, {
+      method: "GET"
+    })
+      .then(res => res.json())
+      .then(data => {
+        return setMsgNumb(data.mailnumber);
+      });
   };
   const sendAccept = async e => {
     const msgId = e.currentTarget.dataset.targetid;
     const targetUser = e.currentTarget.dataset.targetuser;
+    const dirId = e.currentTarget.dataset.dirid;
+
     await fetch(`${baseUrl}/mail/${userName}/${targetUser}/2`, {
       method: "POST",
-      body: JSON.stringify({ mail_id: msgId })
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mail_id: msgId, dir_id: dirId })
     });
+
+    await fetch(`${baseUrl}/mail/${msgId}/delete`, {
+      method: "GET"
+    });
+
+    const res = await fetch(`${baseUrl}/mail/${userName}/mailList`, {
+      method: "GET"
+    });
+
+    const data = await res.json();
+    setMsgList(data);
+    fetch(`${baseUrl}/mail/${userName}/mailnumber`, {
+      method: "GET"
+    })
+      .then(res => res.json())
+      .then(data => {
+        return setMsgNumb(data.mailnumber);
+      });
+  };
+  const deleteMessage = async e => {
+    const msgId = e.currentTarget.dataset.targetid;
+
     await fetch(`${baseUrl}/mail/${msgId}/delete`, {
       method: "GET"
     });
@@ -92,7 +144,6 @@ const Sidebar = () => {
     });
     const data = await res.json();
     setMsgList(data);
-    toggleModal();
   };
 
   useEffect(() => {
@@ -100,7 +151,9 @@ const Sidebar = () => {
       method: "GET"
     })
       .then(res => res.json())
-      .then(data => setMsgNumb(data.mailnumber));
+      .then(data => {
+        return setMsgNumb(data.mailnumber);
+      });
 
     fetch(`${baseUrl}/mail/${userName}/mailList`, {
       method: "GET"
@@ -119,7 +172,7 @@ const Sidebar = () => {
           <div className="user-btn__title">{userName}</div>
         </div>
         <MsgDisplay onClick={toggleModal}>
-          <Label color={msgNumb ? "" : "red"}>
+          <Label color={msgNumb == "0" ? "" : "red"}>
             <Icon name="mail" />
             {msgNumb}
           </Label>

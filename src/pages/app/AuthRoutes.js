@@ -1,12 +1,12 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-const AuthRoute = ({ authenticated, component: Component, ...rest }) => {
+const AuthRoute = ({ accessToken, component: Component, ...rest }) => {
   return (
     <Route
       {...rest}
       component={props =>
-        authenticated ? (
+        accessToken ? (
           <Component {...props} />
         ) : (
           <Redirect to={{ pathname: "/login" }} />

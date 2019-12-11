@@ -11,7 +11,8 @@ import Search from "../search/Search";
 import NotFound from "../error/NotFound";
 
 const App = () => {
-  const authenticated = true;
+  const accessToken = sessionStorage.getItem("accessToken");
+
   const [userName, setUserName] = useState("");
   const setCurrentUserName = userName => {
     setUserName(userName);
@@ -25,7 +26,7 @@ const App = () => {
             <AuthRoutes
               exact
               path="/"
-              authenticated={authenticated}
+              accessToken={accessToken}
               component={Main}
             />
             <Route path="/directory/:dir_id" component={Main} />

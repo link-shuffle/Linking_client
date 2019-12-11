@@ -13,24 +13,15 @@ import Tag from "../tag/Tag";
 
 const LinkList = ({ className }) => {
   const userName = sessionStorage.getItem("name");
-
   const [tags, setTags] = useState([]);
   const [modalClose, setModalClose] = useState(false);
   const [inputData, setInputData] = useState({});
   const { linkData, setLinkDataList, copiedLink } = useMainContext();
 
   window.addEventListener("beforeunload", event => {
-    localStorage.setItem("dirId", linkData.dirId);
+    if (linkData.dirId)
+      localStorage.setItem("lastLinkData", JSON.stringify(linkData));
   });
-
-  const getLinkList = () => {
-    const linkList = linkData.linkList ? linkData.linkList : [];
-    return linkList.map((link, index) => (
-      <li key={index}>
-        <Card linkData={link} />
-      </li>
-    ));
-  };
 
   const handleChange = e => {
     if (e.target.value.includes(",")) {
@@ -45,8 +36,6 @@ const LinkList = ({ className }) => {
     const value = e.target.value;
     setInputData({ ...inputData, [type]: value });
   };
-
-  const getTagList = () => tags.map(tag => <Tag name={tag} />);
 
   const toggleModal = e => {
     if (e.target.dataset.type === "save") {
@@ -65,14 +54,12 @@ const LinkList = ({ className }) => {
       desc: inputData.description,
       tag: tags
     };
-    console.log(newLinkData);
-
     await fetch(`${baseUrl}/link/${userName}/${linkData.dirId}/saved`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newLinkData)
     });
-    getLinkData();
+    await getLinkData();
   };
 
   const getLinkData = async () => {
@@ -85,7 +72,18 @@ const LinkList = ({ className }) => {
       dirId: linkData.dirId,
       linkList: data
     };
-    setLinkDataList(dataObj);
+    await setLinkDataList(dataObj);
+  };
+
+  const getTagList = () => tags.map(tag => <Tag name={tag} />);
+
+  const getLinkList = () => {
+    const linkList = linkData.linkList ? linkData.linkList : [];
+    return linkList.map((link, index) => (
+      <li key={index}>
+        <Card linkData={link} />
+      </li>
+    ));
   };
 
   return (

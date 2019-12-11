@@ -8,18 +8,21 @@ const GOOGLE_LOGIN_API_KEY =
 const Login = () => {
   const responseGoogle = async res => {
     const googleUser = await res.profileObj;
+    const accessToken = await res.accessToken;
     const userData = {
-      email: googleUser.email,
-      name: googleUser.name
+      name: googleUser.name,
+      email: googleUser.email
     };
     await fetch(`${baseUrl}/user`, {
       method: "POST",
-      redirect: "follow",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData)
     });
-    // sessionStorage.setItem("name", userData.name);
-    // sessionStorage.setItem("name", "vincentj");
-    // sessionStorage.setItem("imgUrl", googleUser.imageUrl);
+    sessionStorage.setItem("name", userData.name);
+    sessionStorage.setItem("email", userData.email);
+
+    sessionStorage.setItem("imgUrl", googleUser.imageUrl);
+    sessionStorage.setItem("accessToken", accessToken);
   };
 
   const responseFail = async err => {

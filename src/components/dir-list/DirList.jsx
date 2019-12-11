@@ -36,7 +36,7 @@ const DirList = ({ type }) => {
   const plusBtn = type => {
     if (type === "private")
       return (
-        <button className="plus-btn" onClick={toggleModal}>
+        <button type="button" className="plus-btn" onClick={toggleModal}>
           <PlusBtnIcon fill="#A8A8A8" />
         </button>
       );
