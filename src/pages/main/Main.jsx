@@ -28,10 +28,10 @@ const Main = ({ match }) => {
   }, []);
 
   const readFromClipboard = () => {
-    window.navigator.clipboard.readText().then(link => {
-      console.log(link);
-      setCopiedLink(link);
-    });
+    // window.navigator.clipboard.readText().then(link => {
+    //   console.log(link);
+    //   setCopiedLink(link);
+    // });
   };
 
   return (
