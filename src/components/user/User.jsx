@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { List, Button } from "semantic-ui-react";
 
@@ -7,17 +7,16 @@ import { baseUrl } from "../../config/base";
 const User = ({ user, callback }) => {
   const [followStatus, setFollowStatus] = useState(user.following_status);
   const userName = sessionStorage.getItem("name");
+
   const toggleFollower = e => {
     e.stopPropagation();
     const targetUser = e.target.dataset.targetuser;
     const type = followStatus === 1 ? "delete" : "add";
     const method = followStatus === 1 ? "GET" : "POST";
-    console.log(followStatus);
     const url = `${baseUrl}/following/${userName}/${targetUser}/${type}`;
     fetch(url, { method });
 
     setFollowStatus(followStatus ? 0 : 1);
-    console.log(url);
   };
 
   return (

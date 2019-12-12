@@ -7,7 +7,7 @@ const UserList = ({ userList, callback }) => {
   return (
     <List>
       {userList.map(user => (
-        <User user={user} callbakc={callback} />
+        <User user={user} callback={callback} />
       ))}
     </List>
   );

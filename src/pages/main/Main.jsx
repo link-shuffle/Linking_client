@@ -22,16 +22,15 @@ const Main = ({ match }) => {
 
   useEffect(() => {
     const lastLinkData = JSON.parse(localStorage.getItem("lastLinkData"));
-    console.log(lastLinkData);
-    setLinkData(lastLinkData);
+    setLinkData(lastLinkData ? lastLinkData : []);
     readFromClipboard();
   }, []);
 
-  const readFromClipboard = async () => {
-    const link = await window.navigator.clipboard.readText();
-    if (link) {
-      await setCopiedLink(link);
-    }
+  const readFromClipboard = () => {
+    window.navigator.clipboard.readText().then(link => {
+      console.log(link);
+      setCopiedLink(link);
+    });
   };
 
   return (

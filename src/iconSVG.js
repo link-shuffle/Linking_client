@@ -19,7 +19,7 @@ export const ExpandBtnIcon = ({ fill }) => (
   </svg>
 );
 
-export const SettingBtnIcon = ({ fill }) => (
+export const ShareBtnIcon = ({ fill }) => (
   <svg width="24px" height="24px" viewBox="0 0 240 240">
     <g
       id="shareBtn"
@@ -37,7 +37,7 @@ export const SettingBtnIcon = ({ fill }) => (
   </svg>
 );
 
-export const ShareBtnIcon = ({ fill }) => (
+export const SettingBtnIcon = ({ fill }) => (
   <svg width="24px" height="24px" viewBox="0 0 240 240">
     <g
       id="settingBtn"

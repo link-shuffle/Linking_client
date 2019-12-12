@@ -29,9 +29,6 @@ const Sidebar = () => {
 
   const showMessageList = ({ messageList }) => {
     return messageList.map(message => {
-      console.log(message);
-
-      console.log(message.status);
       return (
         <List.Item class="message-item">
           <List.Content>
@@ -132,7 +129,6 @@ const Sidebar = () => {
 
   const deleteMessage = async e => {
     const msgId = e.currentTarget.dataset.targetid;
-
     await fetch(`${baseUrl}/mail/${msgId}/delete`, {
       method: "GET"
     });

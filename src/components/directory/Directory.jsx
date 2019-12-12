@@ -46,15 +46,14 @@ const Directory = ({ dirName, dirId, index }) => {
     setReveal(reveal ? false : true);
   };
 
-  const handleClickTarget = async e => {
-    e.stopPropagation();
+  const handleClickTarget = e => {
     const targetUser = e.currentTarget.dataset.targetuser;
-    await fetch(`${baseUrl}/mail/${userName}/${targetUser}/0`, {
+    fetch(`${baseUrl}/mail/${userName}/${targetUser}/0`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ dir_id: dirId })
     });
-    await toggleModal();
+    toggleModal();
   };
 
   const handleSearch = async e => {
@@ -114,11 +113,11 @@ const Directory = ({ dirName, dirId, index }) => {
           </div>
           <OptionBtnArea reveal={reveal} className="title-container__option">
             <button onClick={toggleModal}>
-              <SettingBtnIcon fill="#797979" />
+              <ShareBtnIcon fill="#797979" />
             </button>
 
             <button>
-              <ShareBtnIcon fill="#797979" />
+              <SettingBtnIcon fill="#797979" />
             </button>
           </OptionBtnArea>
         </div>

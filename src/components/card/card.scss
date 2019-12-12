@@ -4,14 +4,16 @@
   box-shadow: rgba(0, 0, 0, 0.15) 0 2px 8px;
   flex: 0 1 24%;
   min-width: 240px;
-  min-height: 220px;
+  min-height: 200px;
 
   max-width: 360px;
-  max-height: 220px;
 
   display: flex;
   padding: 16px 24px 16px 16px;
   margin: 8px;
+  &__data-container {
+    flex: 1;
+  }
 
   &__read-state {
     width: 8px;
@@ -39,6 +41,8 @@
   }
   &__link-data {
     flex: 1 0;
+    display: flex;
+    flex-direction: column;
   }
   &__link-url {
     font-size: 0.8rem;
@@ -99,5 +103,20 @@
   &__tag-list {
     display: flex;
     flex-wrap: wrap;
+  }
+  &__menu-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
+    &:hover {
+      background: #eee;
+    }
+    & > svg {
+      transform: rotate(90deg);
+    }
+  }
+  &__menu-btn-container {
+    display: flex;
+    justify-content: flex-end;
   }
 }
