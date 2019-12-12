@@ -10,7 +10,6 @@ import "./main.scss";
 const Main = ({ match }) => {
   const [isVisibleSidebar, setIsVisibleSidebar] = useState(false);
   const [linkData, setLinkData] = useState([]);
-  const [copiedLink, setCopiedLink] = useState("");
   const [lastDirId, setLastDirId] = useState(localStorage.getItem("dirId"));
 
   const toggleSidebar = isVisibleSidebar => {
@@ -24,15 +23,13 @@ const Main = ({ match }) => {
   useEffect(() => {
     const lastLinkData = JSON.parse(localStorage.getItem("lastLinkData"));
     setLinkData(lastLinkData ? lastLinkData : []);
-    readFromClipboard();
+    // readFromClipboard();
   }, []);
 
-  const readFromClipboard = () => {
-    // window.navigator.clipboard.readText().then(link => {
-    //   console.log(link);
-    //   setCopiedLink(link);
-    // });
-  };
+  // const readFromClipboard = async () => {
+  //   const link = await window.navigator.clipboard.readText();
+  //   console.log(link);
+  // };
 
   return (
     <div className="main">
@@ -42,7 +39,6 @@ const Main = ({ match }) => {
           toggleSidebar,
           linkData,
           setLinkDataList,
-          copiedLink,
           lastDirId
         }}
       >
