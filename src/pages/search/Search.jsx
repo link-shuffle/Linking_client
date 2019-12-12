@@ -117,7 +117,9 @@ const Search = () => {
           searchResultList.length ? (
             getSearchResult()
           ) : (
-            <Alert>🙅‍♂️ No Matched Result, Please search again!</Alert>
+            <Alert>
+              <span role="img">🙅‍♂️</span>No Matched Result, Please search again!
+            </Alert>
           )
         ) : (
           ""

@@ -148,7 +148,13 @@ const LinkList = ({ className }) => {
               onClick={resetWrongUrl}
             />
             <div className="wrong-url-msg">
-              {wrongUrl ? "🙊 Oops! Wrong URL, Please type Correct URL" : ""}
+              {wrongUrl ? (
+                <span role="img">
+                  🙊 Oops! Wrong URL, Please type Correct URL
+                </span>
+              ) : (
+                ""
+              )}
             </div>
             <Form.Input
               fluid

@@ -25,13 +25,13 @@ const App = () => {
       <Router>
         <AppContext.Provider value={{ userName, setCurrentUserName }}>
           <Switch>
-            <AuthRoutes
+            {/* <AuthRoutes
               exact
               path="/"
               accessToken={"accessToken"}
               component={Main}
-            />
-            <Route path="/directory/:dir_id" component={Main} />
+            /> */}
+            <Route exact path="/" component={Main} />
             <Route path="/login" component={Login} />
             <Route path="/search" component={Search} />
             <Route path="/social" component={Social} />
