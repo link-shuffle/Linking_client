@@ -1,113 +1,231 @@
-import React, { useEffect, useContext, useState } from "react";
-
-import Directory from "../directory/Directory";
-import ContextMenu from "../context-menu/ContextMenu";
-import { FoldBtnIcon, PlusBtnIcon } from "../../iconSVG";
-import { SidebarContext } from "../../MyContext";
-
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { Button, Icon, List, Label, Modal } from "semantic-ui-react";
+
+import { FoldBtnIcon } from "../../iconSVG";
+import { useMainContext } from "../../MyContext";
+import { baseUrl } from "../../config/base";
+
+import DirList from "../dir-list/DirList";
 
 import "./sidebar.scss";
 
 const Sidebar = () => {
-  const [initDirList, setInitDirList] = useState([]);
-  const [menuState, setMenuState] = useState(false);
-  const [menuLocation, setMenuLocation] = useState({ x: 0, y: 0 });
-  const { hidden, toggleSidebar } = useContext(SidebarContext);
+  const userName = sessionStorage.getItem("name");
+  const userImgUrl = sessionStorage.getItem("imgUrl");
+  const [msgNumb, setMsgNumb] = useState("0");
+  const [msgList, setMsgList] = useState([]);
+  const [modalClose, setModalClose] = useState(false);
 
-  useEffect(() => {
-    getInitDirList();
-  }, []);
-
-  const getInitDirList = async () => {
-    const response = await fetch(
-      "http://localhost:1024/directory/김정연/private",
-      {
-        method: "POST"
-      }
-    );
-    const data = await response.json();
-    await setInitDirList(data);
-  };
-
-  const toggleContextMenu = e => {
-    setMenuLocation({ x: `${e.pageX}px`, y: `${e.pageY}px` });
-    setMenuState(menuState ? false : true);
-  };
-
-  const removeContextMenu = e => {
-    setMenuState(false);
-  };
+  const { isVisibleSidebar, toggleSidebar } = useMainContext();
 
   const closeSidebar = () => {
     toggleSidebar(true);
   };
 
-  const expandDir = dirList => {
-    return dirList.map(dirItem => (
-      <Directory dirName={dirItem.name} dirId={dirItem.dir_id} />
-    ));
+  const toggleModal = e => {
+    setModalClose(modalClose ? false : true);
   };
 
+  const showMessageList = ({ messageList }) => {
+    return messageList.map(message => {
+      console.log(message);
+
+      console.log(message.status);
+      return (
+        <List.Item class="message-item">
+          <List.Content>
+            <List.Header>{message.message}</List.Header>
+            <List.Description>{message.display_name}</List.Description>
+          </List.Content>
+          {message.status === 1 ? (
+            <div>
+              <List.Icon
+                color="red"
+                name="close"
+                size="middle"
+                verticalAlign="middle"
+                data-targetUser={message.sender}
+                data-targetId={message.mail_id}
+                onClick={sendReject}
+              />
+              <List.Icon
+                color="green"
+                name="check"
+                size="middle"
+                verticalAlign="middle"
+                data-targetUser={message.sender}
+                data-targetId={message.mail_id}
+                data-dirId={message.dir_id}
+                onClick={sendAccept}
+              />
+            </div>
+          ) : (
+            <div>
+              <List.Icon
+                color="grey"
+                name="trash alternate"
+                size="middle"
+                verticalAlign="middle"
+                data-targetUser={message.sender}
+                data-targetId={message.mail_id}
+                onClick={deleteMessage}
+              />
+            </div>
+          )}
+        </List.Item>
+      );
+    });
+  };
+
+  const sendReject = async e => {
+    const msgId = e.currentTarget.dataset.targetid;
+    const targetUser = e.currentTarget.dataset.targetuser;
+
+    await fetch(`${baseUrl}/mail/${userName}/${targetUser}/1`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mail_id: msgId })
+    });
+    await fetch(`${baseUrl}/mail/${msgId}/delete`, {
+      method: "GET"
+    });
+    const res = await fetch(`${baseUrl}/mail/${userName}/mailList`, {
+      method: "GET"
+    });
+    const data = await res.json();
+    setMsgList(data);
+    fetch(`${baseUrl}/mail/${userName}/mailnumber`, {
+      method: "GET"
+    })
+      .then(res => res.json())
+      .then(data => setMsgNumb(data.mailnumber));
+  };
+  const sendAccept = async e => {
+    const msgId = e.currentTarget.dataset.targetid;
+    const targetUser = e.currentTarget.dataset.targetuser;
+    const dirId = e.currentTarget.dataset.dirid;
+
+    await fetch(`${baseUrl}/mail/${userName}/${targetUser}/2`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mail_id: msgId, dir_id: dirId })
+    });
+
+    await fetch(`${baseUrl}/mail/${msgId}/delete`, {
+      method: "GET"
+    });
+
+    const res = await fetch(`${baseUrl}/mail/${userName}/mailList`, {
+      method: "GET"
+    });
+
+    const data = await res.json();
+    setMsgList(data);
+
+    fetch(`${baseUrl}/mail/${userName}/mailnumber`, {
+      method: "GET"
+    })
+      .then(res => res.json())
+      .then(data => setMsgNumb(data.mailnumber));
+  };
+
+  const deleteMessage = async e => {
+    const msgId = e.currentTarget.dataset.targetid;
+
+    await fetch(`${baseUrl}/mail/${msgId}/delete`, {
+      method: "GET"
+    });
+    const res = await fetch(`${baseUrl}/mail/${userName}/mailList`, {
+      method: "GET"
+    });
+
+    fetch(`${baseUrl}/mail/${userName}/mailnumber`, {
+      method: "GET"
+    })
+      .then(res => res.json())
+      .then(data => setMsgNumb(data.mailnumber));
+    const data = await res.json();
+    setMsgList(data);
+  };
+
+  useEffect(() => {
+    fetch(`${baseUrl}/mail/${userName}/mailnumber`, {
+      method: "GET"
+    })
+      .then(res => res.json())
+      .then(data => {
+        return setMsgNumb(data.mailnumber);
+      });
+
+    fetch(`${baseUrl}/mail/${userName}/mailList`, {
+      method: "GET"
+    })
+      .then(res => res.json())
+      .then(data => setMsgList(data));
+  }, []);
+
   return (
-    <SidebarContainer hidden={hidden} className="sidebar">
+    <SidebarContainer isVisibleSidebar={isVisibleSidebar} className="sidebar">
       <div className="sidebar__navbar navbar">
-        <div className="user-btn" onClick={toggleContextMenu}>
-          <div className="user-btn__img"></div>
-          <div className="user-btn__title">User Name</div>
-          <ContextContainer menuState={menuState} onClick={removeContextMenu}>
-            <ContextMenu
-              className="user-context"
-              menuState={menuState}
-              menuLocation={menuLocation}
-            >
-              <div className="context_item">
-                <div className="inner_item">Settings</div>
-              </div>
-              <div className="context_item">
-                <div className="inner_item">Help</div>
-              </div>
-              <div className="context_hr"></div>
-              <div className="context_item">
-                <div className="inner_item">Log out</div>
-              </div>
-            </ContextMenu>
-          </ContextContainer>
+        <div className="user-btn">
+          <div className="user-btn__img">
+            <img src={userImgUrl ? userImgUrl : ""} alt="user-profile" />
+          </div>
+          <div className="user-btn__title">{userName}</div>
         </div>
+        <MsgDisplay onClick={toggleModal}>
+          <Label color={msgNumb === "0" ? "" : "red"}>
+            <Icon name="mail" />
+            {msgNumb}
+          </Label>
+        </MsgDisplay>
         <button className="fold-btn" onClick={closeSidebar}>
           <FoldBtnIcon fill="#A8A8A8" />
         </button>
       </div>
-
-      <div className="sidebar__directory directory">
-        <div className="directory__type">
-          <div>Private</div>
-          <button>
-            <PlusBtnIcon fill="#A8A8A8" />
-          </button>
-        </div>
-        <div className="directory__list">
-          <ul>{expandDir(initDirList)}</ul>
-        </div>
+      <div className="sidebar__directory">
+        <DirList type="private" />
+        <DirList type="shared" />
+        <DirList type="public" />
       </div>
+      <Modal
+        size="tiny"
+        closeOnEscape={false}
+        closeOnDimmerClick={true}
+        open={modalClose}
+        onClose={toggleModal}
+      >
+        <Modal.Header>Message List</Modal.Header>
+        <Modal.Content scrolling>
+          <List divided relaxed>
+            {msgList.length ? (
+              showMessageList({ messageList: msgList })
+            ) : (
+              <Alert>🗂 No Shared Directory(Message)</Alert>
+            )}
+          </List>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button onClick={toggleModal}>Complete</Button>
+        </Modal.Actions>
+      </Modal>
     </SidebarContainer>
   );
 };
 
 const SidebarContainer = styled.div`
-  width: ${({ hidden }) => {
-    return hidden ? "0px" : "240px";
+  width: ${({ isVisibleSidebar }) => {
+    return isVisibleSidebar ? "0px" : "240px";
   }}};
 `;
 
-const ContextContainer = styled.div`
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  z-index: 10;
-  left: 0;
-  top: 0;
-  display: ${({ menuState }) => (menuState ? "block" : "none")};
+const MsgDisplay = styled.div`
+  cursor: pointer;
+`;
+const Alert = styled.div`
+  font-weight: bold;
+  text-align: center;
 `;
 
 export default Sidebar;

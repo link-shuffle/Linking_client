@@ -1,22 +1,14 @@
 import React from "react";
-import styled from "styled-components";
 
-const Tag = ({ name }) => {
+import "./tag.scss";
+
+const Tag = ({ name, children }) => {
   return (
-    <TagItem className="tag">
-      <div>{name}</div>
-    </TagItem>
+    <div className="tag">
+      <div className="tag__title">{name}</div>
+      <div className="tag__btn">{children}</div>
+    </div>
   );
 };
-
-const TagItem = styled.div`
-  background: #ffe18e;
-  color: #3e3e3e;
-  margin-right: 4px;
-  padding: 6px 12px;
-  border-radius: 10px;
-  font-weight: bold;
-  font-size: 0.9rem;
-`;
 
 export default Tag;

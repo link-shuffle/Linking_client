@@ -2,6 +2,7 @@
   display: flex;
   padding: 16px;
   align-items: center;
+  min-height: 56px;
   &__sidebar-btn {
     flex: 0 1;
     width: 24px;
@@ -16,5 +17,15 @@
     flex: 1 0;
     font-size: 1.2rem;
     font-weight: bold;
+  }
+  &__search-icon {
+    width: 24px;
+    height: 24px;
+    border: 2px;
+    border-radius: 4px;
+    cursor: pointer;
+    &:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
   }
 }

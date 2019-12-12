@@ -1,3 +1,7 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 
-export const SidebarContext = createContext();
+export const MainContext = createContext();
+export const useMainContext = () => useContext(MainContext);
+
+export const AppContext = createContext();
+export const useAppContext = () => useContext(AppContext);

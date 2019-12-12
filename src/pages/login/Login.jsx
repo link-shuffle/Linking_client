@@ -1,23 +1,28 @@
 import React from "react";
 import GoogleLogin from "react-google-login";
+import { baseUrl } from "../../config/base";
 
 const GOOGLE_LOGIN_API_KEY =
   "185423882459-107vb5ja8v508lffukk94bc0s102o6tp.apps.googleusercontent.com";
 
 const Login = () => {
   const responseGoogle = async res => {
+    console.log(res);
     const googleUser = await res.profileObj;
-    console.log(googleUser);
+    const accessToken = await res.accessToken;
     const userData = {
-      email: googleUser.email,
-      name: googleUser.name
+      name: googleUser.name,
+      email: googleUser.email
     };
-    const response = await fetch("/user", {
+    await fetch(`${baseUrl}/user`, {
       method: "POST",
-      redirect: "follow",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData)
     });
-    console.log(response);
+    sessionStorage.setItem("name", userData.name);
+    sessionStorage.setItem("email", userData.email);
+    sessionStorage.setItem("imgUrl", googleUser.imageUrl);
+    sessionStorage.setItem("accessToken", accessToken);
   };
 
   const responseFail = async err => {
