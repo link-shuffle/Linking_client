@@ -193,7 +193,7 @@ const Sidebar = () => {
         open={modalClose}
         onClose={toggleModal}
       >
-        <Modal.Header>Message List</Modal.Header>
+        <Modal.Header>순호리스트!!!!!!</Modal.Header>
         <Modal.Content scrolling>
           <List divided relaxed>
             {msgList.length ? (
