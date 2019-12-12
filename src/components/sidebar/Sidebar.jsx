@@ -199,7 +199,9 @@ const Sidebar = () => {
             {msgList.length ? (
               showMessageList({ messageList: msgList })
             ) : (
-              <Alert>🗂 No Shared Directory(Message)</Alert>
+              <Alert>
+                <span role="img">🗂</span>No Shared Directory(Message)
+              </Alert>
             )}
           </List>
         </Modal.Content>
