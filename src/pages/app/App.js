@@ -11,7 +11,10 @@ import Search from "../search/Search";
 import NotFound from "../error/NotFound";
 
 const App = () => {
-  const accessToken = sessionStorage.getItem("accessToken");
+  const [accessToken, setAccessToken] = useState(
+    // sessionStorage.getItem("accessToken")
+    "hello"
+  );
 
   const [userName, setUserName] = useState("");
   const setCurrentUserName = userName => {

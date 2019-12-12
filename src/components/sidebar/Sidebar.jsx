@@ -29,16 +29,13 @@ const Sidebar = () => {
 
   const showMessageList = ({ messageList }) => {
     return messageList.map(message => {
-      console.log(message);
-
-      console.log(message.status);
       return (
-        <List.Item>
+        <List.Item class="message-item">
           <List.Content>
             <List.Header>{message.message}</List.Header>
             <List.Description>{message.display_name}</List.Description>
           </List.Content>
-          {message.status == 1 ? (
+          {message.status === 1 ? (
             <div>
               <List.Icon
                 color="red"
@@ -81,7 +78,6 @@ const Sidebar = () => {
   const sendReject = async e => {
     const msgId = e.currentTarget.dataset.targetid;
     const targetUser = e.currentTarget.dataset.targetuser;
-    const dirId = e.currentTarget.dataset.dirId;
 
     await fetch(`${baseUrl}/mail/${userName}/${targetUser}/1`, {
       method: "POST",
@@ -100,9 +96,7 @@ const Sidebar = () => {
       method: "GET"
     })
       .then(res => res.json())
-      .then(data => {
-        return setMsgNumb(data.mailnumber);
-      });
+      .then(data => setMsgNumb(data.mailnumber));
   };
   const sendAccept = async e => {
     const msgId = e.currentTarget.dataset.targetid;
@@ -125,23 +119,28 @@ const Sidebar = () => {
 
     const data = await res.json();
     setMsgList(data);
+
     fetch(`${baseUrl}/mail/${userName}/mailnumber`, {
       method: "GET"
     })
       .then(res => res.json())
-      .then(data => {
-        return setMsgNumb(data.mailnumber);
-      });
+      .then(data => setMsgNumb(data.mailnumber));
   };
+
   const deleteMessage = async e => {
     const msgId = e.currentTarget.dataset.targetid;
-
     await fetch(`${baseUrl}/mail/${msgId}/delete`, {
       method: "GET"
     });
     const res = await fetch(`${baseUrl}/mail/${userName}/mailList`, {
       method: "GET"
     });
+
+    fetch(`${baseUrl}/mail/${userName}/mailnumber`, {
+      method: "GET"
+    })
+      .then(res => res.json())
+      .then(data => setMsgNumb(data.mailnumber));
     const data = await res.json();
     setMsgList(data);
   };
@@ -172,7 +171,7 @@ const Sidebar = () => {
           <div className="user-btn__title">{userName}</div>
         </div>
         <MsgDisplay onClick={toggleModal}>
-          <Label color={msgNumb == "0" ? "" : "red"}>
+          <Label color={msgNumb === "0" ? "" : "red"}>
             <Icon name="mail" />
             {msgNumb}
           </Label>
@@ -196,7 +195,11 @@ const Sidebar = () => {
         <Modal.Header>Message List</Modal.Header>
         <Modal.Content scrolling>
           <List divided relaxed>
-            {showMessageList({ messageList: msgList })}
+            {msgList.length ? (
+              showMessageList({ messageList: msgList })
+            ) : (
+              <Alert>🗂 No Shared Directory(Message)</Alert>
+            )}
           </List>
         </Modal.Content>
         <Modal.Actions>
@@ -215,6 +218,10 @@ const SidebarContainer = styled.div`
 
 const MsgDisplay = styled.div`
   cursor: pointer;
+`;
+const Alert = styled.div`
+  font-weight: bold;
+  text-align: center;
 `;
 
 export default Sidebar;
