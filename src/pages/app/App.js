@@ -8,6 +8,7 @@ import AuthRoutes from "./AuthRoutes";
 import Main from "../main/Main";
 import Login from "../login/Login";
 import Search from "../search/Search";
+import Social from "../social/Social";
 import NotFound from "../error/NotFound";
 
 const App = () => {
@@ -34,7 +35,8 @@ const App = () => {
             />
             <Route path="/directory/:dir_id" component={Main} />
             <Route path="/login" component={Login} />
-            <Route path="/Search" component={Search} />
+            <Route path="/search" component={Search} />
+            <Route path="/social" component={Social} />
             <Route component={NotFound} />
           </Switch>
         </AppContext.Provider>

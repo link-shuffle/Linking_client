@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Button, Icon, List, Label, Modal } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 
 import { FoldBtnIcon } from "../../iconSVG";
 import { useMainContext } from "../../MyContext";
@@ -164,12 +165,12 @@ const Sidebar = () => {
   return (
     <SidebarContainer isVisibleSidebar={isVisibleSidebar} className="sidebar">
       <div className="sidebar__navbar navbar">
-        <div className="user-btn">
+        <Link to="/social" className="user-btn">
           <div className="user-btn__img">
             <img src={userImgUrl ? userImgUrl : ""} alt="user-profile" />
           </div>
           <div className="user-btn__title">{userName}</div>
-        </div>
+        </Link>
         <MsgDisplay onClick={toggleModal}>
           <Label color={msgNumb === "0" ? "" : "red"}>
             <Icon name="mail" />
