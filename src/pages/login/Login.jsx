@@ -7,6 +7,7 @@ const GOOGLE_LOGIN_API_KEY =
 
 const Login = () => {
   const responseGoogle = async res => {
+    console.log(res);
     const googleUser = await res.profileObj;
     const accessToken = await res.accessToken;
     const userData = {
@@ -20,7 +21,6 @@ const Login = () => {
     });
     sessionStorage.setItem("name", userData.name);
     sessionStorage.setItem("email", userData.email);
-
     sessionStorage.setItem("imgUrl", googleUser.imageUrl);
     sessionStorage.setItem("accessToken", accessToken);
   };

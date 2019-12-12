@@ -50,3 +50,14 @@
 .title-container {
   cursor: pointer;
 }
+
+.message-item {
+  display: flex;
+  & > .content {
+    flex: 1;
+
+    & > .description {
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
+}

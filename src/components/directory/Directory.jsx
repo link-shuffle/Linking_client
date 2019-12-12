@@ -3,10 +3,11 @@ import styled from "styled-components";
 
 import { ExpandBtnIcon, SettingBtnIcon, ShareBtnIcon } from "../../iconSVG";
 import { useMainContext } from "../../MyContext";
-import { Button, Modal, Input, Icon, List } from "semantic-ui-react";
+import { Button, Modal, Input, List } from "semantic-ui-react";
 
 import { baseUrl } from "../../config/base";
 import "./directory.scss";
+import UserList from "../../components/user-list/UserList";
 
 const Directory = ({ dirName, dirId, index }) => {
   const userName = sessionStorage.getItem("name");
@@ -17,10 +18,11 @@ const Directory = ({ dirName, dirId, index }) => {
   const { setLinkDataList } = useMainContext();
   const [modalClose, setModalClose] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
+  const [inputValue, setInputValue] = useState("");
   const [targetUser, setTargetUser] = useState("");
 
-  const toggleModal = e => {
-    e.stopPropagation();
+  const toggleModal = () => {
+    setSearchResult([]);
     setModalClose(modalClose ? false : true);
   };
 
@@ -56,32 +58,17 @@ const Directory = ({ dirName, dirId, index }) => {
   };
 
   const handleSearch = async e => {
-    const response = await fetch(
-      `${baseUrl}/search/${userName}/${e.target.value}`,
-      {
-        method: "GET"
-      }
-    );
+    const value = e.target.value;
+    setInputValue(value);
+    const response = await fetch(`${baseUrl}/search/${userName}/${value}`, {
+      method: "GET"
+    });
     const data = await response.json();
     setSearchResult(data);
   };
 
   const showUserList = ({ userList }) => {
-    return userList.map(user => (
-      <List.Item
-        data-targetUser={user.display_name}
-        onClick={handleClickTarget}
-      >
-        <AlignedItem>
-          <List.Icon name="github" size="large" />
-          <List.Content>
-            <div>{user.display_name}</div>
-            <div>{user.name}</div>
-          </List.Content>
-          <Button>{user.following_status ? "팔로잉" : "팔로우"}</Button>
-        </AlignedItem>
-      </List.Item>
-    ));
+    return <UserList userList={userList} callback={handleClickTarget} />;
   };
 
   const getLinkData = async e => {
@@ -154,7 +141,15 @@ const Directory = ({ dirName, dirId, index }) => {
           />
         </Modal.Header>
         <Modal.Content scrolling>
-          <List>{showUserList({ userList: searchResult })}</List>
+          {inputValue ? (
+            searchResult.length ? (
+              showUserList({ userList: searchResult })
+            ) : (
+              <Alert>🤔 No matched User, Please check again</Alert>
+            )
+          ) : (
+            ""
+          )}
         </Modal.Content>
         <Modal.Actions>
           <Button onClick={toggleModal}>Complete</Button>
@@ -163,6 +158,11 @@ const Directory = ({ dirName, dirId, index }) => {
     </li>
   );
 };
+
+const Alert = styled.div`
+  text-align: center;
+  font-weight: bold;
+`;
 
 const ExpandBtn = styled.button`
   & > svg {
@@ -173,16 +173,6 @@ const ExpandBtn = styled.button`
 
 const OptionBtnArea = styled.div`
   display: ${({ reveal }) => (reveal ? "flex" : "none")};
-`;
-const AlignedItem = styled.div`
-  display: flex;
-  cursor: pointer;
-  &:hover {
-    background: #eee;
-  }
-  & > div {
-    flex: 1;
-  }
 `;
 
 export default Directory;

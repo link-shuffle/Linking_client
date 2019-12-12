@@ -25,7 +25,7 @@ const DirList = ({ type }) => {
     })
       .then(res => res.json())
       .then(data => setDirList(data));
-  }, []);
+  }, [userName, type]);
 
   const expandDir = dirItemList => {
     return dirItemList.map((dirItem, index) => (

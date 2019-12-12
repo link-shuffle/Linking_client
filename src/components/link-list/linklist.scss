@@ -1,15 +1,13 @@
 .link-list {
   overflow: hidden scroll;
-  padding: 16px 0 0 16px;
-
+  &::-webkit-scrollbar {
+    display: none;
+  }
   &__container {
-    overflow: hidden scroll;
     display: flex;
     flex-wrap: wrap;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    margin: 0 auto;
+    max-width: 1200px;
   }
 }
 
@@ -75,4 +73,10 @@
   &__reset-btn {
     flex: 0 1;
   }
+}
+
+.wrong-url-msg {
+  margin-bottom: 16px;
+  font-weight: bold;
+  color: rgba(255, 0, 0, 0.9);
 }

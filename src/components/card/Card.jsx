@@ -27,7 +27,13 @@ function Card({ linkData }) {
     });
   };
   return (
-    <a className="card" href={link} target="_blank" onClick={toggleReadStatus}>
+    <a
+      className="card"
+      href={link}
+      target="_blank"
+      rel="noopener noreferrer"
+      onClick={toggleReadStatus}
+    >
       <div className="card__read-state-container">
         <ReadState
           className="card__read-state"
