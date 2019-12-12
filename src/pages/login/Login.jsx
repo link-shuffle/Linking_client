@@ -19,7 +19,9 @@ const Login = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData)
     });
-    sessionStorage.setItem("name", userData.name);
+    // sessionStorage.setItem("name", userData.name);
+
+    sessionStorage.setItem("name", "vincentj");
     sessionStorage.setItem("email", userData.email);
     sessionStorage.setItem("imgUrl", googleUser.imageUrl);
     sessionStorage.setItem("accessToken", accessToken);

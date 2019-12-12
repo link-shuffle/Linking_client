@@ -12,10 +12,8 @@ import Social from "../social/Social";
 import NotFound from "../error/NotFound";
 
 const App = () => {
-  const [accessToken, setAccessToken] = useState(
-    // sessionStorage.getItem("accessToken")
-    "hello"
-  );
+  const [accessToken, setAccessToken] = useState("test");
+  // sessionStorage.getItem("accessToken")
 
   const [userName, setUserName] = useState("");
   const setCurrentUserName = userName => {
@@ -30,7 +28,7 @@ const App = () => {
             <AuthRoutes
               exact
               path="/"
-              accessToken={accessToken}
+              accessToken={"accessToken"}
               component={Main}
             />
             <Route path="/directory/:dir_id" component={Main} />
