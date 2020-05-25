@@ -8,13 +8,13 @@
 
 이런 클라우드 기반의 프로그램들은 모두 링크를 통해 필요한 사람들에게 전달된다. 일상에서 우리가 흥미로운 웹사이트를 공유하듯 이제는 링크를 통해 필요한 정보와 프로그램 그 자체가 공유된다. 편하게 큰 리소스 낭비 없이 공유가 가능하고 접근이 가능하다. 하지만, 이런 중요한 링크는 많이 공유되지만, 마땅히 모아서 저장하여 관리할 곳이 없어, 분산되어 저장되고 이로 인해 쉽게 잊히게 된다.
 
-[https://lh6.googleusercontent.com/0YaI9OFH0t1svm8pZukNwZHjbokuWorgzYZCX8WOb7JgHBSS6Zn_Xm95DXhFPvkUV57Nc_eIGc7MLPkN9TFvZHw6aIPLkZGD7Dp6eLnjJ-wvlWHERI8Rzd17CQOG5ut4bc4wm2zL](https://lh6.googleusercontent.com/0YaI9OFH0t1svm8pZukNwZHjbokuWorgzYZCX8WOb7JgHBSS6Zn_Xm95DXhFPvkUV57Nc_eIGc7MLPkN9TFvZHw6aIPLkZGD7Dp6eLnjJ-wvlWHERI8Rzd17CQOG5ut4bc4wm2zL)
+![](assets/pasted image 0.png)
 
 브라우저의 북마크나 메모장 등의 기능을 이용하면 쉽게 링크를 저장할 수 있다. 하지만 필요한 링크를 다시 찾아볼 때 북마크나 메모장의 경우 링크에 관한 정보가 한눈에 들어오지 않는 문제점이 있다. 이로 인해, 링크를 찾는 데 시간이 더 걸려 링크를 저장한 의미가 퇴색된다.
 
-[https://lh4.googleusercontent.com/UuLtYUn1qvsyHYvjBGyxMTNjIadHFRKOYjbbJVNrWFQfMsUWD6bclUkuZ4ggjKRX9ic399vhz17xhv7ylzXlIda67Digr5nNvFCqasNTb2rJwPeDlGOoCHOv4JnL3JZhnRWhGOQy](https://lh4.googleusercontent.com/UuLtYUn1qvsyHYvjBGyxMTNjIadHFRKOYjbbJVNrWFQfMsUWD6bclUkuZ4ggjKRX9ic399vhz17xhv7ylzXlIda67Digr5nNvFCqasNTb2rJwPeDlGOoCHOv4JnL3JZhnRWhGOQy)
+![](assets/pasted image 0 (1).png)
 
-[https://lh4.googleusercontent.com/ojWZQXBGoML9wz8IISBOsW06D9hdZ5gjRtDsh9H8OP4eSUEzyIQQdUK9CHodD5nNLhKWN7tujgjOIRv-c60u6quSM0_FiyEB6jxpms2aKhNUcnnxNNAwZerC56taCRKjQiMHAEVj](https://lh4.googleusercontent.com/ojWZQXBGoML9wz8IISBOsW06D9hdZ5gjRtDsh9H8OP4eSUEzyIQQdUK9CHodD5nNLhKWN7tujgjOIRv-c60u6quSM0_FiyEB6jxpms2aKhNUcnnxNNAwZerC56taCRKjQiMHAEVj)
+![](assets/pasted image 0 (2).png)
 
 이러한 문제에서 착안하여 링크를 보다 보기 쉽고, 저장하기 쉬우며, 다시 찾아보기 쉽게 만들 수 있는 Linking이라는 서비스를 개발하여 해결하고자 한다. Linking을 통해 사용자는 링크를 주제에 맞게 한 저장소에 모아 보기 편하게 만들고, 쉽게 관리할 수 있다. Linking은 'Link all in one workspace' 라는 슬로건 아래, 본인이 관심 있는 분야와 관련된 콘텐츠의 링크를 모아 한눈에 볼 수 있고 관리할 수 있는 서비스다.
 
